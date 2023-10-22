@@ -1,0 +1,41 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}        
+        
+    <!--Body Content-->
+    <div id="page-content">
+
+    	<!-- Collection Banner-->
+    	<div class="collection-header">
+			<div class="collection-hero">
+        		<div class="collection-hero__image"><img data-src="assets/images/cat-women3.jpg" src="{% static 'assets/images/cat-women1.jpg' %}" alt="Women" title="Women" /></div>
+        		<div class="collection-hero__title-wrapper"><h1 class="collection-hero__title page-width">Shop By Category</h1></div>
+      		</div>
+		</div>
+        <!--End Collection Banner-->
+
+        <hr>
+        
+        <div class="container collection-box">
+        	<div class="row">
+
+                {% for c in categories %}
+                <div class="col-6 col-sm-12 col-md-4 col-lg-4">
+                	<div class="colletion-item">
+                        <a href="{% url 'core:category-product-list' c.cid %}">
+                            <img class="blur-up lazyload" src="{{ c.image.url }}" alt="{{ c.title }}" style=" height: 250px;">
+                            <div class="title">
+                                <span><h5>{{ c.title }}</h5><p>{{ c.category.count }} Product{{ c.category.count|pluralize }}</p></span>
+                            </div>
+                        </a>
+                    </div>
+               	</div>
+                {% endfor %}
+
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+
+{% endblock content %}
