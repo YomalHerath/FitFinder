@@ -27,31 +27,35 @@
                             <div class="widget-title"><h2>Categories</h2></div>
                             <div class="widget-content">
                                 <ul class="sidebar_categories">
-                                    <li class="level1 sub-level"><a href="#;" class="site-nav">Clothing</a>
-                                    	<ul class="sublinks">
-                                        	<li class="level2"><a href="#;" class="site-nav">Men</a></li>
-                                            <li class="level2"><a href="#;" class="site-nav">Women</a></li>
-                                            <li class="level2"><a href="#;" class="site-nav">Child</a></li>
-                                            <li class="level2"><a href="#;" class="site-nav">View All Clothing</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="level1 sub-level"><a href="#;" class="site-nav">Jewellery</a>
-                                    	<ul class="sublinks">
-                                        	<li class="level2"><a href="#;" class="site-nav">Ring</a></li>
-                                            <li class="level2"><a href="#;" class="site-nav">Neckalses</a></li>
-                                            <li class="level2"><a href="#;" class="site-nav">Eaarings</a></li>
-                                            <li class="level2"><a href="#;" class="site-nav">View All Jewellery</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="lvl-1"><a href="#;" class="site-nav">Shoes</a></li>
-                                    <li class="lvl-1"><a href="#;" class="site-nav">Accessories</a></li>
-                                    <li class="lvl-1"><a href="#;" class="site-nav">Collections</a></li>
-                                    <li class="lvl-1"><a href="#;" class="site-nav">Sale</a></li>
-                                    <li class="lvl-1"><a href="#;" class="site-nav">Page</a></li>
+                                    {% for c in categories %}
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" data-filter="category" class="form-check-input filter-checkbox" name="checkbox" id="checkboxcategory" value="{{ c.cid }}">
+                                            <li class="lvl-1"><a href="{% url 'core:category-product-list' c.cid %}" class="site-nav">{{ c.title }}</a></li>
+                                        </label>
+                                    </div>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
                         <!--Categories-->
+                        <!--Vednors-->
+                    	<div class="sidebar_widget categories filter-widget">
+                            <div class="widget-title"><h2>Brands</h2></div>
+                            <div class="widget-content">
+                                <ul class="sidebar_categories">
+                                    {% for v in vendors %}
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" data-filter="vendor" class="form-check-input filter-checkbox" name="checkbox" id="checkboxvendor" value="{{ v.vid }}">
+                                            <li class="lvl-1"><a href="{% url 'core:vendor-detail' v.vid %}" class="site-nav">{{ v.title }}</a></li>
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!--Vendors-->
                     </div>
                 </div>
                 <!--End Sidebar-->
@@ -65,34 +69,9 @@
                     	<div class="toolbar">
                         	<div class="filters-toolbar-wrapper">
                             	<div class="row">
-                                	<div class="col-4 col-md-4 col-lg-4 filters-toolbar__item collection-view-as d-flex justify-content-start align-items-center">
-                                    	<a href="shop-left-sidebar.html" title="Grid View" class="change-view change-view--active">
-                                        	<img src="{% static 'assets/images/grid.jpg' %}" alt="Grid" />
-                                        </a>
-                                        <a href="shop-listview.html" title="List View" class="change-view">
-                                        	<img src="{% static 'assets/images/list.jpg' %}" alt="List" />
-                                        </a>
-                                    </div>
-                                    <div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
+                                    <div class="col text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
                                     	<span class="filters-toolbar__product-count">Showing: {{products.count}}</span>
-                                    </div> 
-                                    <div class="col-4 col-md-4 col-lg-4 text-right">
-                                    	<div class="filters-toolbar__item">
-                                      		<label for="SortBy" class="hidden">Sort</label>
-                                      		<select name="SortBy" id="SortBy" class="filters-toolbar__input filters-toolbar__input--sort">
-                                                <option value="title-ascending" selected="selected">Sort</option>
-                                                <option>Best Selling</option>
-                                                <option>Alphabetically, A-Z</option>
-                                                <option>Alphabetically, Z-A</option>
-                                                <option>Price, low to high</option>
-                                                <option>Price, high to low</option>
-                                                <option>Date, new to old</option>
-                                                <option>Date, old to new</option>
-                                      		</select>
-                                      		<input class="collection-header__default-sort" type="hidden" value="manual">
-                                        </div>
-                                    </div>                                    
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
