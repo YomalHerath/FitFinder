@@ -1,11 +1,13 @@
 from django.urls import path
-from core.views import index, category_list_view, filter_product, product_list_view, add_review, category_product_list_view, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view
+from core.views import index, about_us, category_list_view, filter_product, product_list_view, add_review, category_product_list_view, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view
 
 app_name = "core"
 
 urlpatterns = [
     # Home Page
     path("", index, name="index"),
+    path("aboutus/", about_us, name="aboutus"),
+
     path("products/", product_list_view, name="product-list"),
     path("product/<pid>/", product_detail_view, name="product-detail"),
     

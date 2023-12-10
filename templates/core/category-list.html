@@ -23,7 +23,7 @@
                 <div class="col-6 col-sm-12 col-md-4 col-lg-4">
                 	<div class="colletion-item">
                         <a href="{% url 'core:category-product-list' c.cid %}">
-                            <img class="blur-up lazyload" src="{{ c.image.url }}" alt="{{ c.title }}" style=" height: 250px;">
+                            <img class="blur-up lazyload" src="{{ c.image.url }}" alt="{{ c.title }}" style=" height: 215px;">
                             <div class="title">
                                 <span><h5>{{ c.title }}</h5><p>{{ c.category.count }} Product{{ c.category.count|pluralize }}</p></span>
                             </div>

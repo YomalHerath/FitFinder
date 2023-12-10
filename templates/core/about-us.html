@@ -1,0 +1,61 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}   
+
+<!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">About Us</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <div class="container">
+        	<div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+                	<div class="text-center mb-4">
+                        <h2 class="h2">Welcome to FitFinder: Your Personalized Clothing Marketplace</h2>
+                        <div class="rte-setting">
+                            <p>At FitFinder, we're not just building a platform; we're creating a community. We understand that finding the perfect fit online can be a challenge, and we're here to change that. FitFinder is not just an online marketplace; it's a revolution in how we experience and embrace fashion.</p>
+                        </div>
+                    </div>
+               	</div>
+            </div>
+            <div class="row">
+            	<div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-4"><img class="blur-up lazyload" data-src="{% static 'assets/images/about1.jpg' %}" src="{% static 'assets/images/about1.jpg' %}" alt="About Us" /></div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-4"><img class="blur-up lazyload" data-src="{% static 'assets/images/about2.jpg' %}" src="{% static 'assets/images/about2.jpg' %}" alt="About Us" /></div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-4"><img class="blur-up lazyload" data-src="{% static 'assets/images/about3.jpg' %}" src="{% static 'assets/images/about3.jpg' %}" alt="About Us" /></div>
+            </div>
+            <div class="row">
+            	<div class="col-6">
+                    <h2>Our Mission</h2>
+                    <p><strong>Empowering Your Style Journey</strong></p>
+                    <p>Our mission is simple: to empower your style journey. We believe that every individual deserves to feel confident and comfortable in what they wear. FitFinder is designed to transform the way you shop for clothes online by providing a personalized, interactive, and enjoyable experience.</p>
+                    <p></p>
+                </div>
+            	<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                	<h2 class="h2">What Sets Us Apart</h2>
+                    <p><strong>Revolutionizing Online Apparel Shopping</strong></p>
+                    <div class="rte-setting">
+                        <p><strong>Personalized Virtual Fitting</strong></p>
+                        <p>Say goodbye to sizing guesswork! Our virtual fitting technology allows you to visualize how clothing items will look on your unique body shape. Whether you're a buyer or a seller, the power of personalization is at your fingertips.</p>
+                        <p></p>
+                    </div>
+                    <div class="rte-setting">
+                        <p><strong>Cutting-Edge Technology</strong></p>
+                        <p>We embrace innovation. From AI-powered style recommendations to virtual try-on capabilities, we leverage cutting-edge technologies to ensure you have the best and most advanced tools at your disposal.</p></div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+
+    
+{% endblock content %}
