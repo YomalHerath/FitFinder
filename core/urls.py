@@ -24,5 +24,5 @@ urlpatterns = [
     path("add-review/<pid>/", add_review, name="add-review"),
 
     # Search
-    path("search/", search_view)
+    path("search/", search_view, name="search"),
 ]

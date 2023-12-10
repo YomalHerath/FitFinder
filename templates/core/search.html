@@ -9,8 +9,12 @@
     	<div class="collection-header">
 			<div class="collection-hero">
         		<div class="collection-hero__image"><img class="blur-up lazyload" src="{% static 'assets/images/cat-women3.jpg' %}" alt="Women" title="Women" /></div>
-        		<div class="collection-hero__title-wrapper"><h1 class="collection-hero__title page-width">Shop Products</h1></div>
-      		</div>
+                {% if query %}
+                <div class="collection-hero__title-wrapper"><h1 class="collection-hero__title page-width">{{query}}</h1></div>
+                {% else %}
+                <div class="collection-hero__title-wrapper"><h1 class="collection-hero__title page-width">No Search Query Found</h1></div>
+                {% endif %}
+            </div>
 		</div>
         <!--End Collection Banner-->
         
