@@ -30,7 +30,7 @@
                                     {% for c in categories %}
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" data-filter="category" class="form-check-input filter-checkbox" name="checkbox" id="checkboxcategory" value="{{ c.cid }}">
+                                            <input type="checkbox" data-filter="category" class="form-check-input filter-checkbox" name="checkbox" id="checkboxcategory" value="{{ c.id }}">
                                             <li class="lvl-1"><a href="{% url 'core:category-product-list' c.cid %}" class="site-nav">{{ c.title }}</a></li>
                                         </label>
                                     </div>
@@ -47,7 +47,7 @@
                                     {% for v in vendors %}
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" data-filter="vendor" class="form-check-input filter-checkbox" name="checkbox" id="checkboxvendor" value="{{ v.vid }}">
+                                            <input type="checkbox" data-filter="vendor" class="form-check-input filter-checkbox" name="checkbox" id="checkboxvendor" value="{{ v.id }}">
                                             <li class="lvl-1"><a href="{% url 'core:vendor-detail' v.vid %}" class="site-nav">{{ v.title }}</a></li>
                                         </label>
                                     </div>
@@ -76,8 +76,8 @@
                         </div>
                         <!--End Toolbar-->
                         
-                        <div class="grid-products grid--view-items" id="filtered-product">
-                            <div class="row">
+                        <div class="grid-products grid--view-items">
+                            <div class="row" id="filtered-product">
                                 
                                 {% for p in products %}
 
@@ -118,7 +118,7 @@
                                             </div>
                                             <!-- product button -->
                                             <div class="button-set">
-                                                <a href="#" title="Quick View" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
+                                                <a href="{% url 'core:product-detail' p.pid %}" title="Quick View" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
                                                         <i class="icon anm anm-search-plus-r"></i>
                                                     </a>
                                                 <!-- Start product button -->
@@ -128,11 +128,6 @@
                                                 <div class="wishlist-btn">
                                                     <a class="wishlist add-to-wishlist" href="#" title="Add to Wishlist">
                                                         <i class="icon anm anm-heart-l"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="compare-btn">
-                                                    <a class="compare add-to-compare" href="#" title="Add to Compare">
-                                                        <i class="icon anm anm-random-r"></i>
                                                     </a>
                                                 </div>
                                             </div>

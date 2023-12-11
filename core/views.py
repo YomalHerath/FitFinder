@@ -168,17 +168,14 @@ def filter_product(request):
     categories = request.GET.getlist('category[]')
     vendors = request.GET.getlist('vendor[]')
 
+    # Query products
     products = Product.objects.filter(product_status="published").order_by("-id").distinct()
 
     if len(categories) > 0:
         products = products.filter(category__id__in=categories).distinct()
-    
+
     if len(vendors) > 0:
         products = products.filter(vendor__id__in=vendors).distinct()
 
-    context = {
-        "products": products
-    }
-
-    data = render_to_string("core/async/product-list.html", context)
+    data = render_to_string("core/async/product-list.html", {"products": products})
     return JsonResponse({"data": data})
