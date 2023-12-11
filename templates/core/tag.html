@@ -119,7 +119,7 @@
                                             </div>
                                             <!-- product button -->
                                             <div class="button-set">
-                                                <a href="#" title="Quick View" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
+                                                <a href="{% url 'core:product-detail' p.pid %}" title="Quick View" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
                                                         <i class="icon anm anm-search-plus-r"></i>
                                                     </a>
                                                 <!-- Start product button -->
@@ -129,11 +129,6 @@
                                                 <div class="wishlist-btn">
                                                     <a class="wishlist add-to-wishlist" href="#" title="Add to Wishlist">
                                                         <i class="icon anm anm-heart-l"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="compare-btn">
-                                                    <a class="compare add-to-compare" href="#" title="Add to Compare">
-                                                        <i class="icon anm anm-random-r"></i>
                                                     </a>
                                                 </div>
                                             </div>
