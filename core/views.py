@@ -179,3 +179,6 @@ def filter_product(request):
 
     data = render_to_string("core/async/product-list.html", {"products": products})
     return JsonResponse({"data": data})
+
+
+
