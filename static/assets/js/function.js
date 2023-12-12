@@ -127,6 +127,7 @@ $("#add_to_cart_btn").on("click", function(){
         success: function(response){
             this_val.html("Item Successfully Added to Cart!")
             console.log("Product Added to Success");
+            $(".cart-items-count").text(response.totalcartitems)
         },
     })
 

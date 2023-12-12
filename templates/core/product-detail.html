@@ -75,10 +75,7 @@
                                                 <span class="off"><span>-{{ product.get_precentage|floatformat:0 }}%</span></span>
                                             </span>  
                                         </p>
-                                        <div class="orderMsg" data-user="23" data-time="24">
-                                            <img src="{% static 'assets/images/order-icon.jpg' %}" alt="" /> <strong class="items">5</strong> sold in last <strong class="time">26</strong> hours</div>
-                                        </div>
-                                        <div id="quantity_message">Hurry! Only  <span class="items">{{ product.stock_count }}</span>  left in stock.</div>
+                                        <div id="quantity_message">Hurry! Only  <span class="items">{{ product.stock_count }}</span>  left in stock. &nbsp;</div>
                                         
                                         <!-- Product Action -->
                                         <div class="product-action clearfix">
