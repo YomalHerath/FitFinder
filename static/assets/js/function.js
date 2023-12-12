@@ -99,23 +99,32 @@ $(document).ready(function () {
 
 
 //Add to cart functionality
-$("#add_to_cart_btn").on("click", function(){
-    let quantity = $("#Quantity").val();
-    let product_title = $("#product-title").val()
-    let product_id = $("#product-id").val()
-    let product_price = $("#current-price").text()
+$(".add_to_cart_btn").on("click", function(){
     let this_val = $(this)
+    let _index = this_val.attr("data-index")
+    let quantity = $("#Quantity-"+_index).val();
+    let product_title = $("#product-title-"+_index).val()
+    let product_id = $("#product-id-"+_index).val()
+    let product_price = $("#current-price-"+_index).val()
+    let product_image = $("#product-image-"+_index).val()
+    let product_pid = $("#product-pid-"+_index).val()
+    
 
     console.log("Quantity: ", quantity);
     console.log("Title: ", product_title);
     console.log("ID: ", product_id);
     console.log("Price: ", product_price);
+    console.log("Image URL: ", product_image);
+    console.log("Product PID: ", product_pid);
+    console.log("Index: ", _index);
     console.log("Current Element: ", this_val);
 
     $.ajax({
         url: '/add-to-cart',
         data: {
             'id': product_id,
+            'pid': product_pid,
+            'image': product_image,
             'qty': quantity,
             'title': product_title,
             'price': product_price,
@@ -125,7 +134,7 @@ $("#add_to_cart_btn").on("click", function(){
             console.log("Product Adding to Cart");
         },
         success: function(response){
-            this_val.html("Item Successfully Added to Cart!")
+            this_val.html("✔ Item Added Successfully! ")
             console.log("Product Added to Success");
             $(".cart-items-count").text(response.totalcartitems)
         },

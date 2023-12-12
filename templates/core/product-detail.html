@@ -89,15 +89,19 @@
                                                 </div>
                                             </div>                                
                                             <div class="product-form__item--submit">
-                                                <input type="hidden" name="product-id" id="product-id" class="product-id" value="{{ product.id }}">
-                                                <input type="hidden" name="product-title" class="product-title" id="product-title" value="{{ product.title }}">
-                                                <button type="submit" name="add_to_cart_btn" id="add_to_cart_btn" class="btn product-form__cart-submit">
-                                                    <span>Add to cart</span>
-                                                </button>
+                                                <input type="hidden" id="Quantity-{{ product.id }}" value="1" class="product-quantity-{{ product.id }}">
+                                                <input type="hidden" id="product-pid-{{ product.id }}" class="product-pid-{{ product.id }}" value="{{ product.pid }}">
+                                                <input type="hidden" class="product-image-{{ product.id }}" id="product-image-{{ product.id }}" value="{{ product.image.url }}">
+                                                <input type="hidden" class="product-id-{{ product.id }}" id="product-id-{{ product.id }}" value="{{ product.id }}">
+                                                <input type="hidden" class="product-title-{{ product.id }}" id="product-title-{{ product.id }}" value="{{ product.title }}">
+                                                <input type="hidden" class="current-price-{{ product.id }}" id="current-price-{{ product.id }}" value="{{ product.price }}">
+                                                <button class="btn add_to_cart_btn" data-index="{{ product.id }}" type="submit" id="add_to_cart_btn">Add To Cart</button>
                                             </div>
+
                                             <div class="shopify-payment-button" data-shopify="payment-button">
                                                 <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded">Buy it now</button>
                                             </div>
+
                                         </div>
                                         <!-- End Product Action -->
 
