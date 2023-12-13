@@ -88,33 +88,40 @@
                             <li class="lvl1 parent megamenu"><a href="{% url 'core:category-list' %}">Category <i class="anm anm-angle-down-l"></i></a></li>
                             <li class="lvl1 parent megamenu"><a href="{% url 'core:product-list' %}">Products <i class="anm anm-angle-down-l"></i></a></li>
                             <li class="lvl1 parent megamenu"><a href="{% url 'core:vendor-list' %}">Shops <i class="anm anm-angle-down-l"></i></a></li>
-                            <li class="lvl1 parent dropdown"><a href="#">Pages <i class="anm anm-angle-down-l"></i></a></li>
-                            <li><a href="{% url 'core:aboutus' %}" class="site-nav">About Us </a></li>
+                            <li class="lvl1 parent megamenu"><a href="{% url 'core:aboutus' %}" class="site-nav">About Us </a></li>
                         </ul>
                   </nav>
                   <!--End Desktop Menu-->
                 </div>
 
-                <!--Mobile Logo-->
                 <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
                 	<div class="logo">
-                        <a href="index.html">
+                        <a href="{% url 'core:index' %}">
                             <img src="{% static 'assets/images/logo.png' %}" alt="FitFinder PNG Image" title="FitFinder PNG Image" />
                         </a>
                     </div>
                 </div>
-                <!--Mobile Logo-->
+                
+                
+
                 <div class="col-4 col-sm-3 col-md-3 col-lg-2">
-                	<div class="site-cart">
-                    	<a href="#;" class="site-header__cart" title="Cart">
-                        	<i class="icon anm anm-bag-l"></i>
-                            <span id="CartCount" class="site-header__cart-count cart-items-count" data-cart-render="item_count">{{ request.session.cart_data_obj|length }}</span>
-                        </a>
+            
+                    <div class="site-cart">
+                        <button type="button" class="site-header__cart" onclick="location.href='{% url 'core:cart' %}'" style="border: none; background: none;">
+                            <i class="icon anm anm-bag-l"></i>
+                            <span id="CartCount" class="site-header__cart-count cart-items-count" data-cart-render="item_count">
+                                {{ request.session.cart_data_obj|length }}
+                            </span>
+                        </button>
                     </div>
+
                     <div class="site-header__search">
-                    	<button type="button" class="search-trigger"><i class="icon anm anm-search-l"></i></button>
+                        	<button type="button" class="search-trigger"><i class="icon anm anm-search-l"></i></button>
                     </div>
+                	
+
                 </div>
+                
         	</div>
         </div>
     </div>
@@ -126,10 +133,11 @@
     <div class="mobile-nav-wrapper" role="navigation">
 		<div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> Close Menu</div>
         <ul id="MobileNav" class="mobile-nav">
-          <li class="lvl1 parent megamenu"><a href="{% url 'core:index' %}">Home <i class="anm anm-plus-l"></i></a></li>
-          <li class="lvl1 parent megamenu"><a href="{% url 'core:category-list' %}">Category <i class="anm anm-plus-l"></i></a></li>
-          <li class="lvl1 parent megamenu"><a href="{% url 'core:product-list' %}">Products <i class="anm anm-plus-l"></i></a></li>
-          <li class="lvl1 parent megamenu"><a href="{% url 'core:vendor-list' %}">Shops <i class="anm anm-plus-l"></i></a></li>
+          <li class="lvl1 parent megamenu"><a href="{% url 'core:index' %}">Home</a></li>
+          <li class="lvl1 parent megamenu"><a href="{% url 'core:category-list' %}">Category </a></li>
+          <li class="lvl1 parent megamenu"><a href="{% url 'core:product-list' %}">Products </a></li>
+          <li class="lvl1 parent megamenu"><a href="{% url 'core:vendor-list' %}">Shops </a></li>
+          <li class="lvl1 parent megamenu"><a href="{% url 'core:aboutus' %}"> About Us </a></li>
       </ul>
 	</div>
 	<!--End Mobile Menu-->

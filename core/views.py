@@ -4,6 +4,8 @@ from taggit.models import Tag
 from django.db.models import Avg
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib import messages
+from django.shortcuts import redirect
 
 
 from core.models import Product, Vendor, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
@@ -205,3 +207,15 @@ def add_to_cart(request):
     else:
         request.session['cart_data_obj'] = cart_product
     return JsonResponse({"data":request.session['cart_data_obj'], 'total_cart_item': len(request.session['cart_data_obj']) })
+
+
+def cart_view(request):
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+        for p_id, item in request.session['cart_data_obj'].items():
+            cart_total_amount += int(item['qty']) * float(item['price'])
+        return render(request, "core/cart.html", {"cart_data":request.session['cart_data_obj'], 'total_cart_item': len(request.session['cart_data_obj']), 'cart_total_amount':cart_total_amount})
+    else:
+        messages.warning(request, "Your Cart is Empty!")
+        return redirect("core:index")
+        # return render(request, "core/cart.html", {"cart_data":'', 'total_cart_item': len(request.session['cart_data_obj']), 'cart_total_amount':cart_total_amount})
