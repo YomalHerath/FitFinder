@@ -95,49 +95,132 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    // Event handler for the "Add to Cart" button.
+    $(".add_to_cart_btn").on("click", function(){
+        // Get the jQuery object for the clicked button.
+        let this_val = $(this);
+
+        // Retrieve the index of the product from the button's data attribute.
+        let _index = this_val.attr("data-index");
+
+        // Extract product details like quantity, title, id, price, image, and pid based on the index.
+        let quantity = $("#Quantity-"+_index).val();
+        let product_title = $("#product-title-"+_index).val();
+        let product_id = $("#product-id-"+_index).val();
+        let product_price = $("#current-price-"+_index).val();
+        let product_image = $("#product-image-"+_index).val();
+        let product_pid = $("#product-pid-"+_index).val();
+
+        // Log the extracted product details for debugging purposes.
+        console.log("Quantity: ", quantity);
+        console.log("Title: ", product_title);
+        console.log("ID: ", product_id);
+        console.log("Price: ", product_price);
+        console.log("Image URL: ", product_image);
+        console.log("Product PID: ", product_pid);
+        console.log("Index: ", _index);
+        console.log("Current Element: ", this_val);
+
+        // AJAX call to the server to add the product to the cart.
+        $.ajax({
+            url: '/add-to-cart', // Server endpoint for adding items to the cart.
+            data: {
+                'id': product_id,
+                'pid': product_pid,
+                'image': product_image,
+                'qty': quantity,
+                'title': product_title,
+                'price': product_price,
+            },
+            dataType: 'json', // The type of data expected back from the server.
+            beforeSend: function(){
+                // Action to perform before sending the AJAX request.
+                console.log("Product Adding to Cart");
+            },
+            success: function(response){
+                // Update the button text and cart items count on successful addition.
+                this_val.html("✔ Item Added Successfully! ")
+                console.log("Product Added to Success");
+                $(".cart-items-count").text(response.totalcartitems)
+            },
+        });
+    });
+
+
+    $(document).on("click", ".delete_product", function(){
+
+        let product_id = $(this).attr("data-product")
+        let this_val = $(this)
+
+        console.log("Product ID: ", product_id);
+
+        $.ajax({
+            url: "/delete-from-cart",
+            data: {
+                "id": product_id,
+            },
+            dataType: "json",
+            beforeSend: function(){
+                this_val.hide()
+            },
+            success: function(response){
+                this_val.show()
+                $(".cart-items-count").text(response.totalcartitems)
+                $(".cart-list").html(response.data)
+            },
+        })
+
+    });
+
+
+    $(document).on("click", ".update_product", function(){
+
+        let product_id = $(this).attr("data-product")
+        let this_val = $(this)
+        let product_quantity = $("#product-qty-"+product_id).val()
+
+        console.log("Product ID: ", product_id);
+        console.log("Product Qty: ", product_quantity);
+
+        $.ajax({
+            url: "/update-cart",
+            data: {
+                "id": product_id,
+                "qty": product_quantity,
+            },
+            dataType: "json",
+            beforeSend: function(){
+                this_val.hide()
+            },
+            success: function(response){
+                this_val.show()
+                $(".cart-items-count").text(response.totalcartitems)
+                $(".cart-list").html(response.data)
+            },
+        })
+
+    });
+
+    // Event delegation for incrementing quantity
+    $(document).on("click", ".qtyBtn.plus", function(){
+        let product_id = $(this).closest('.qtyField').find('.cart__qty-input').attr('id').replace('product-qty-', '');
+        let qtyInput = $("#product-qty-" + product_id);
+        let currentQty = parseInt(qtyInput.val());
+        qtyInput.val(currentQty + 1);
+    });
+
+    // Event delegation for decrementing quantity
+    $(document).on("click", ".qtyBtn.minus", function(){
+        let product_id = $(this).closest('.qtyField').find('.cart__qty-input').attr('id').replace('product-qty-', '');
+        let qtyInput = $("#product-qty-" + product_id);
+        let currentQty = parseInt(qtyInput.val());
+        if(currentQty > 1) {
+            qtyInput.val(currentQty - 1);
+        }
+    });
+
 });
 
 
-//Add to cart functionality
-$(".add_to_cart_btn").on("click", function(){
-    let this_val = $(this)
-    let _index = this_val.attr("data-index")
-    let quantity = $("#Quantity-"+_index).val();
-    let product_title = $("#product-title-"+_index).val()
-    let product_id = $("#product-id-"+_index).val()
-    let product_price = $("#current-price-"+_index).val()
-    let product_image = $("#product-image-"+_index).val()
-    let product_pid = $("#product-pid-"+_index).val()
-    
-
-    console.log("Quantity: ", quantity);
-    console.log("Title: ", product_title);
-    console.log("ID: ", product_id);
-    console.log("Price: ", product_price);
-    console.log("Image URL: ", product_image);
-    console.log("Product PID: ", product_pid);
-    console.log("Index: ", _index);
-    console.log("Current Element: ", this_val);
-
-    $.ajax({
-        url: '/add-to-cart',
-        data: {
-            'id': product_id,
-            'pid': product_pid,
-            'image': product_image,
-            'qty': quantity,
-            'title': product_title,
-            'price': product_price,
-        },
-        dataType: 'json',
-        beforeSend: function(){
-            console.log("Product Adding to Cart");
-        },
-        success: function(response){
-            this_val.html("✔ Item Added Successfully! ")
-            console.log("Product Added to Success");
-            $(".cart-items-count").text(response.totalcartitems)
-        },
-    })
-
-})

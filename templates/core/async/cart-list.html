@@ -1,8 +1,5 @@
-{% extends 'partials/base.html' %}
+
 {% load static %}
-{% block content %}  
-
-
 <!--Body Content-->
     <div id="page-content cart-list" class="cart-list">
     	<!--Page Title-->
@@ -56,17 +53,19 @@
                                     <td class="text-right small--hide cart-price">
                                         <div><span class="money">{% widthratio item.price 1 item.qty %}</span></div>
                                     </td>
+
                                     <td class="text-center small--hide">
                                         <button type="submit" class="btn btn--secondary update_product" id="update_product" data-product="{{ product_id }}" style="border: none;">
                                             <i class="icon icon anm anm-refresh"></i>
                                         </button>
                                     </td>
-                                    
+
                                     <td class="text-center small--hide">
                                         <button type="submit" class="btn btn--secondary delete_product" id="delete_product" data-product="{{ product_id }}" style="border: none;">
                                             <i class="icon icon anm anm-times-l"></i>
                                         </button>
                                     </td>
+
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -96,7 +95,7 @@
                           <input type="checkbox" name="tearm" id="cartTearm" class="checkbox" value="tearm" required="">
                            I agree with the terms and conditions</label>
                       </p>
-
+                      
                       {% if totalcartitems %}
                         <a herf="#" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout" style="color: white;">Checkout</a>
                       {% endif %}
@@ -110,5 +109,3 @@
         
     </div>
     <!--End Body Content-->
-
-{% endblock content %}
