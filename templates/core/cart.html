@@ -91,14 +91,9 @@
                         <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money">${{ cart_total_amount|floatformat:2 }}</span></span>
                       </div>
                       <br>
-                      <p class="cart_tearm">
-                        <label>
-                          <input type="checkbox" name="tearm" id="cartTearm" class="checkbox" value="tearm" required="">
-                           I agree with the terms and conditions</label>
-                      </p>
 
                       {% if totalcartitems %}
-                        <a herf="#" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout" style="color: white;">Checkout</a>
+                        <a href="{% url 'core:checkout' %}" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout" style="color: white;">Checkout</a>
                       {% endif %}
                       
                       <div class="paymnet-img"><img src="{% static 'assets/images/payment-img.jpg' %}" alt="Payment"></div>

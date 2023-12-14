@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     #Third Party Packages
     'taggit',
     'ckeditor',
+    'paypal.standard.ipn',
 
     #Custum Apps
     'core',
@@ -147,6 +148,8 @@ JAZZMIN_SETTINGS = {
     'copyright' : "FitFinder.com",
 }
 
+LOGIN_URL = "userauthentication:sign-in"
+
 AUTH_USER_MODEL = 'userauthentication.User'
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
@@ -163,4 +166,8 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+
+PAYPAL_RECEIVER_EMAIL = 'yomalherath1121@gmail.com'
+PAYPAL_TEST = True 
 

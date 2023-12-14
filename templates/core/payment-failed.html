@@ -1,0 +1,23 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}  
+
+
+<!--Body Content-->
+    <div id="page-content">    
+        <div class="container">
+        	<div class="row">
+            	<div class="col-12 col-sm-12 col-md-12 col-lg-12">	
+        			<div class="empty-page-content text-center">
+                        <h1 style="font-size: 72px;">Payment Failed</h1>
+                        <p>Try Again Later</p>
+                        <p><a href="{% url 'core:index' %}" class="btn btn--has-icon-after">Continue shopping <i class="fa fa-caret-right" aria-hidden="true"></i></a></p>
+                      </div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+<!--End Body Content-->
+
+
+{% endblock content %}
