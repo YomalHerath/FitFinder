@@ -36,9 +36,9 @@
                                     <td class="center">{{ order.order_date }}</td>
                                     <td class="center">{{ order.product_status|title }}</td>
                                     {% if order.paid_status == True %}
-                                        <td class="center"><i class="fa fa-check"></i></td>
+                                        <td class="center" style="color: green"><i class="fa fa-check"></i></td>
                                     {% else %}
-                                        <td class="center"><i class="fa fa-times"></i></td>
+                                        <td class="center" style="color: red"><i class="fa fa-times"></i></td>
                                     {% endif %}
                                     <td class="center">${{ order.price }}</td>
                                     <td class="center"><a href="{% url 'core:order-detail' order.id %}">View</a></td>
@@ -87,8 +87,15 @@
                             <br/>
                             <p><strong>Address: </strong>{{ a.address }}</p>
                             <p><strong>Mobile No: </strong>{{ a.mobile }}</p>
-                            <p><strong>Status: </strong>{{ a.status }}</p>
-                            <button class="btn btn--small btn-block">Make Defualt</button>                       
+                            {% comment %} <p>{{a.id}}</p> {% endcomment %}
+
+                            {% if a.status %}
+                                <i data-address-id="{{ a.id }}" class="fa fa-check check{{ a.id }} check"></i>
+                                <button style="display:none" data-address-id="{{ a.id }}" class="btn btn--small make-default-address button{{ a.id }} action_btn">Make Default</button> 
+                            {% else %}
+                                <i data-address-id="{{ a.id }}" style="display:none" class="fa fa-check check{{ a.id }} check"></i>
+                                <button data-address-id="{{ a.id }}" class="btn btn--small make-default-address button{{ a.id }} action_btn">Make Default</button>
+                            {% endif %}                      
                             <hr>
                         </div>
                         {% endfor %}
