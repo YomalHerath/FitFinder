@@ -32,9 +32,9 @@ def about_us(request):
 def product_list_view(request):
      # products = Product.objects.all().order_by("-id")
     products = Product.objects.filter(product_status="published") 
-
+    
     context = {
-        "products":products
+        "products":products,
     }
 
     return render(request, 'core/product-list.html', context)
