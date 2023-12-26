@@ -309,9 +309,9 @@ def checkout_view(request):
         'item_name': "Order-Item-No-" + str(order.id),
         'invoice': "INVOICE_NO-" + str(order.id),
         "currency_code": "USD",
-        "notify_url": 'https://{}{}'.format(host, reverse("core:paypal-ipn")), 
-        "return_url": 'https://{}{}'.format(host, reverse("core:payment-completed")),
-        "cancel_url": 'https://{}{}'.format(host, reverse("core:payment-failed"))
+        "notify_url": 'http://{}{}'.format(host, reverse("core:paypal-ipn")), 
+        "return_url": 'http://{}{}'.format(host, reverse("core:payment-completed")),
+        "cancel_url": 'http://{}{}'.format(host, reverse("core:payment-failed"))
     }
 
     paypal_payment_button = PayPalPaymentsForm(initial=paypal_dict)

@@ -149,8 +149,8 @@ class ProductImages(models.Model):
 class CartOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=9999999999999, decimal_places=2, default="0.00")
-    paid_status = models.BooleanField(default=True)
-    order_date = models.DateTimeField(auto_now_add=False)
+    paid_status = models.BooleanField(default=False)
+    order_date = models.DateTimeField(auto_now_add=True)
     product_status = models.CharField(choices=STATUS_CHOICE, max_length=30, default="process")    
 
     class Meta:
