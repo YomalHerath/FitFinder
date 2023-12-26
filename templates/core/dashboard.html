@@ -15,6 +15,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-6">
+
+                    <div>
+                        <canvas style="height: 200px" id="myChart"></canvas>
+                    </div>
+
+                    <br>
+                    <br>
+
                     <h2>Your Orders</h2>
                     <div class="table-responsive-sm">
                         <table class="table table-striped">
@@ -30,7 +38,7 @@
                             </thead>
                             <tbody>
 
-                                {% for order in orders %}
+                                {% for order in orders_list %}
                                 <tr>
                                     <td class="center">INVOICE-{{ order.id }}</td>
                                     <td class="center">{{ order.order_date }}</td>
@@ -107,5 +115,36 @@
 
     </div>
 <!--End Body Content-->
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const labels = {{ month|safe }}
+
+  const data = {
+    labels: labels,
+    datasets: [{
+        label:'Order Count',
+        backgroundColor: 'rgb(0, 0, 0)',
+        borderColor: 'rgb(0, 0, 0)',
+        data: {{ total_orders|safe }}
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {}
+  };
+
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+
+</script>
+
 
 {% endblock content %}

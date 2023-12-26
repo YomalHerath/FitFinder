@@ -1,3 +1,4 @@
+import calendar
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from taggit.models import Tag
@@ -13,6 +14,10 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from core.admin import WishlistAdmin
+
+# import calander
+from django.db.models.functions import ExtractMonth
+from django.db.models import Count
 
 from core.models import Product, Vendor, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
 from core.forms import ProductReviewForm
@@ -341,8 +346,16 @@ def payment_failed_view(request):
 
 @login_required
 def customer_dashboard(request):
-    orders = CartOrder.objects.filter(user=request.user).order_by("-id")
+    orders_list = CartOrder.objects.filter(user=request.user).order_by("-id")
     address = Address.objects.filter(user=request.user)
+
+    orders =CartOrder.objects.annotate(month=ExtractMonth("order_date")).values("month").annotate(count=Count("id")).values("month", "count")
+    month =[]
+    total_orders = []
+
+    for i in orders:
+        month.append(calendar.month_name[i["month"]]) 
+        total_orders.append(i["count"])
 
     if request.method == "POST":
         address = request.POST["address"]
@@ -358,8 +371,11 @@ def customer_dashboard(request):
 
 
     context = {
+        "orders_list": orders_list,
         "orders": orders,
         "address": address,
+        "month": month,
+        "total_orders": total_orders,
     }
     return render(request, 'core/dashboard.html', context)
 
@@ -374,6 +390,7 @@ def order_detail(request, id):
     return render(request, 'core/order-detail.html', context)
 
 
+@login_required
 def make_address_default(request):
     id = request.GET['id']
     Address.objects.update(status=False)
