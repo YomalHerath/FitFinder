@@ -11,6 +11,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from paypal.standard.forms import PayPalPaymentsForm
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from core.admin import WishlistAdmin
 
 from core.models import Product, Vendor, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
@@ -418,3 +419,19 @@ def add_to_wishlist(request):
         }
 
     return JsonResponse(context) 
+
+
+def remove_wishlist(request):
+    product_id = request.GET['id']
+    wishlist = Wishlist.objects.filter(user=request.user)
+
+    product = Wishlist.objects.get(id=product_id)
+    product.delete()
+
+    context = {
+        "bool": True,
+        "wishlist": wishlist,
+    }
+    wishlist_json = serializers.serialize('json', wishlist)
+    data = render_to_string("core/async/wishlist-list.html", context)
+    return JsonResponse({"data":data, "wishlist":wishlist_json})
