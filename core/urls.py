@@ -1,5 +1,5 @@
 from django.urls import include, path
-from core.views import add_to_wishlist, customer_dashboard, index, make_address_default, order_detail, remove_wishlist, update_cart, payment_failed_view, payment_completed_view, checkout_view, about_us, delete_item_from_cart, category_list_view, cart_view, add_to_cart, filter_product, product_list_view, add_review, category_product_list_view, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view, wishlist_view
+from core.views import add_to_wishlist, contact, ajax_contact_form, customer_dashboard, index, make_address_default, order_detail, remove_wishlist, update_cart, payment_failed_view, payment_completed_view, checkout_view, about_us, delete_item_from_cart, category_list_view, cart_view, add_to_cart, filter_product, product_list_view, add_review, category_product_list_view, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view, wishlist_view
 
 app_name = "core"
 
@@ -73,4 +73,9 @@ urlpatterns = [
     # Removing from Wishlist
     path("remove-from-wishlist", remove_wishlist, name="remove-from-wishlist"),
 
+    # Contact Us View
+    path("contact", contact, name="contact"),
+
+    # Contact Us View
+    path("ajax-contact-form", ajax_contact_form, name="ajax-contact-form"),
 ]

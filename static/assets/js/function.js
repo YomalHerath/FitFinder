@@ -297,6 +297,40 @@ $(document).ready(function () {
         })
     })
 
+
+    $(document).on("submit", "#contact_form_ajax", function(e){
+        e.preventDefault()
+        console.log("Form Submitted");
+
+        let full_name = $("#full_name").val()
+        let email = $("#email").val()
+        let phone = $("#phone").val()
+        let subject = $("#subject").val()
+        let message = $("#message").val()
+
+        console.log("Form Details: ", full_name, email, phone, subject, message);
+
+        $.ajax({
+            url: "/ajax-contact-form",
+            data: {
+                "full_name": full_name,
+                "email": email,
+                "phone": phone,
+                "subject": subject,
+                "message": message,
+            },
+            dataType: 'json',
+            beforeSend: function(){
+                console.log("Sending Data Server");
+            },
+            success: function(response){
+                console.log("Sent Data to Server");
+                $("#contact_form_ajax").hide()
+                $("#message-response").html("Message Sent Successfully!")
+            }
+        })
+    })
+
 });
 
 

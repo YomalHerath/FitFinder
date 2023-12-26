@@ -1,0 +1,82 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %} 
+
+
+<!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Contact Us</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        <div class="map-section map">
+        	<iframe src="https://www.google.com/maps/embed?pb=" height="350" allowfullscreen></iframe>
+            <div class="container">
+            	<div class="row">
+                	<div class="map-section__overlay-wrapper">
+                   	</div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="container">
+            <div class="row">
+            	<div class="col-12 col-sm-12 col-md-4 col-lg-12 mb-4">
+                	<h2>Drop Us A Line</h2>
+                    <p>Your Email and Mobile Number will not be published for any promotions. Required fields are marked.* </p>
+
+                    <h3 class="h3" id="message-response"></h3>
+                	<div class="formFeilds contact-form form-vertical">
+                      <form action="" method="POST"  id="contact_form_ajax" class="contact-form">	
+                        {% csrf_token %}
+                      <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                        	<div class="form-group">
+                          	<input type="text" id="full_name" name="name" placeholder="Name" value="" required="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                        	<div class="form-group">
+							<input type="email" id="email" name="email" placeholder="Email" value="" required="">                        	
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                          	<div class="form-group">
+                            <input required="" type="tel" id="phone" name="phone" pattern="[0-9\-]*" placeholder="Phone Number" value="">
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                          	<div class="form-group">
+                            <input required="" type="text" id="subject" name="subject" placeholder="Subject" value="">
+                            </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        	<div class="form-group">
+                            <textarea required="" rows="10" id="message" name="message" placeholder="Your Message"></textarea>
+                            </div>
+                        </div>  
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="submit" class="btn" value="Send Message">
+                        </div>
+                     </div>
+                     </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+
+    
+{% endblock content %}

@@ -20,6 +20,7 @@ from django.db.models.functions import ExtractMonth
 from django.db.models import Count
 
 from core.models import Product, Vendor, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
+from userauthentication.models import ContactUs
 from core.forms import ProductReviewForm
 
 
@@ -452,3 +453,30 @@ def remove_wishlist(request):
     wishlist_json = serializers.serialize('json', wishlist)
     data = render_to_string("core/async/wishlist-list.html", context)
     return JsonResponse({"data":data, "wishlist":wishlist_json})
+
+
+def contact(request):
+    return render(request, "core/contact.html")
+
+
+def ajax_contact_form(request):
+    full_name = request.GET['full_name']
+    email = request.GET['email']
+    phone = request.GET['phone']
+    subject = request.GET['subject']
+    message = request.GET['message']
+
+    contact = ContactUs.objects.create(
+        full_name = full_name,
+        email = email,
+        phone = phone,
+        subject = subject,
+        message = message,
+    )
+
+    data = {
+        "bool": True,
+        "message": "Message Sent Successfully",
+    }
+
+    return JsonResponse({"data":data})
