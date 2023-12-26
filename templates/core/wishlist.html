@@ -1,0 +1,71 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %} 
+
+<!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Wish List</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <div class="container">
+        	<div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+                	<form action="#">
+                        <div class="wishlist-table table-content table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                    	<th class="product-name text-center alt-font">Remove</th>
+                                        <th class="product-price text-center alt-font">Images</th>
+                                        <th class="product-name alt-font">Product</th>
+                                        <th class="product-price text-center alt-font">Unit Price</th>
+                                        <th class="stock-status text-center alt-font">Stock Status</th>
+                                        <th class="product-subtotal text-center alt-font">Add to Cart</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for w in wishlist %}
+                                    <tr>
+                                    	<td class="product-remove text-center"valign="middle"><a href="#"><i style="color:red" class="fa fa-times"></i></a></td>
+                                        <td class="product-thumbnail text-center">
+                                            <a href="{% url 'core:product-detail' w.product.pid %}"><img src="{{ w.product.image.url }}" alt="" title="" /></a>
+                                        </td>
+                                        <td class="product-name"><h4 class="no-margin"><a href="{% url 'core:product-detail' w.product.pid %}">{{ w.product.title }}</a></h4></td>
+                                        <td class="product-price text-center"><span class="amount">${{ w.product.price }}</span></td>
+                                        <td class="stock text-center">
+                                            <span class="in-stock">{% if w.product.in_stock %} In stock {% else %} Out of Stock {% endif %}</span>
+                                        </td>
+
+                                        <input type="hidden" id="product-pid-{{ w.product.id }}" class="product-pid-{{ w.product.id }}" value="{{ w.product.pid }}">
+                                        <input type="hidden" class="product-image-{{ w.product.id }}" id="product-image-{{ w.product.id }}" value="{{ w.product.image.url }}">
+                                        <input type="hidden" class="product-id-{{ w.product.id }}" id="product-id-{{ w.product.id }}" value="{{ w.product.id }}">
+                                        <input type="hidden" class="product-title-{{ w.product.id }}" id="product-title-{{ w.product.id }}" value="{{ w.product.title }}">
+                                        <input type="hidden" class="current-price-{{ w.product.id }}" id="current-price-{{ w.product.id }}" value="{{ w.product.price }}">
+                                        <input type="hidden" id="Quantity-{{ w.product.id }}" name="product-quantity" value="1" class="product-form__input qty">
+                                                        
+                                        <td class="product-subtotal text-center">
+                                            <button class="btn btn--small add_to_cart_btn" data-index="{{ w.product.id }}" type="submit" id="add_to_cart_btn">Add To Cart</button>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <br>
+                                    <h2 class="h2 text-center">Nothing In Wishlist....</h2>
+                                    <br>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>                   
+               	</div>
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+
+{% endblock content %}

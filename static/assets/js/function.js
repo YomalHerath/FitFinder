@@ -203,6 +203,7 @@ $(document).ready(function () {
 
     });
 
+
     // Event delegation for incrementing quantity
     $(document).on("click", ".qtyBtn.plus", function(){
         let product_id = $(this).closest('.qtyField').find('.cart__qty-input').attr('id').replace('product-qty-', '');
@@ -210,6 +211,7 @@ $(document).ready(function () {
         let currentQty = parseInt(qtyInput.val());
         qtyInput.val(currentQty + 1);
     });
+
 
     // Event delegation for decrementing quantity
     $(document).on("click", ".qtyBtn.minus", function(){
@@ -220,6 +222,7 @@ $(document).ready(function () {
             qtyInput.val(currentQty - 1);
         }
     });
+
 
     // Making Address Defualt 
     $(document).on("click", ".make-default-address", function() {
@@ -244,6 +247,32 @@ $(document).ready(function () {
         });
     });
 
+
+    // Adding Products to Wishlist
+    $(document).on("click", ".add-to-wishlist", function(){
+        let product_id = $(this).attr("data-product-item")
+        let this_val = $(this)
+
+        console.log("Product Id: ", product_id);
+
+        $.ajax({
+            url: "/add-to-wishlist",
+            data: {
+                "id": product_id,
+            },
+            dataType: "json",
+            beforeSend: function(){
+                console.log("Adding to wishlist");
+            },
+            success: function(response){
+                this_val.html("✔ Added to Wishlist")
+                if (response.bool === true ) {
+                    console.log("Added to Wishlist");
+                }
+            }
+
+        })
+    })
 
 });
 
