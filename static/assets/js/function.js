@@ -223,7 +223,6 @@ $(document).ready(function () {
 
     // Making Address Defualt 
     $(document).on("click", ".make-default-address", function() {
-        alert("Button clicked!");
         let id = $(this).attr("data-address-id");
         let this_val = $(this);
         console.log("ID is:", id);
@@ -237,7 +236,7 @@ $(document).ready(function () {
                 if (response.boolean == true) {
                     $(".check").hide();
                     $(".action_btn").show();
-                    
+
                     $(".check" + id).show();
                     $(".button" + id).hide();
                 }
