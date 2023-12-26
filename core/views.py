@@ -342,6 +342,7 @@ def payment_completed_view(request):
 
 @login_required
 def payment_failed_view(request):
+    
     return render(request, 'core/payment-failed.html')
 
 
