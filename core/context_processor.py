@@ -9,7 +9,7 @@ def default(request):
     try:
         wishlist = Wishlist.objects.filter(user=request.user)
     except:
-        messages.warrning(request, "You need to login before accessing your wishlist.")
+        # messages.warrning(request, "You need to login before accessing your wishlist.")
         wishlist = 0
 
     try:

@@ -53,9 +53,9 @@
                         <li><a href="{% url 'userauthentication:sign-in' %}">Sign In</a></li>
                         <li><a href="{% url 'userauthentication:sign-up' %}">Create Account</a></li>
                         {% endif %}
+                        {% if request.user.is_authenticated %}
                         <li><a href="{% url 'core:dashboard' %}">My Account</a></li>
                         <li><a href="{% url 'core:wishlist' %}">Wishlist</a></li>
-                        {% if request.user.is_authenticated %}
                         <li><a href="{% url 'userauthentication:sign-out' %}">Sign Out</a></li>
                         {% endif %}
                       </ul>
