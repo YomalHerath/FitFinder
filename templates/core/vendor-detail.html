@@ -26,7 +26,6 @@
             <div class="list-view-item__title-column">
                 <div class="h4 grid-view-item__title"><a href="product-layout-2.html">{{ p.title }}</a></div>
                 <h3 class="grid-view">{{ vendor.title }}</h3>
-                <p class="product-review"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></p>
                 <p class="grid-view-item__meta">{{ vendor.description }}</p>
                 <div class="grid-view-item__meta"><span class="article__date"> <p>Since {{ vendor.date|date:"Y" }}</p></span></div>
                 <p class="grid-view-item__meta"><i class="icon anm anm-map-marker-al"></i> &nbsp; <span>{{ vendor.address }}</span></p>
@@ -87,9 +86,6 @@
                                 </div>
                                 <div class="list-view-item__title-column">
                                     <div class="h4 grid-view-item__title"><a href="{% url 'core:product-detail' p.pid %}">{{ p.title }}</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></p>
-                                    <!-- End Product Review -->
                                     <!-- Sort Description -->
                                     <p>{{ p.description|truncatechars:250 }}</p>
                                     <!-- End Sort Description -->
