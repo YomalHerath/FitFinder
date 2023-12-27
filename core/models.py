@@ -247,6 +247,3 @@ class ThreadComment(models.Model):
 
     class Meta:
         verbose_name_plural = "Thread Comments"
-
-    def __str__(self):
-        return self.thread.title

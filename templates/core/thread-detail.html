@@ -4,7 +4,7 @@
 
 
     <!--Body Content-->
-    <div id="page-content">
+    <div id="page-content thread-detail-page">
     	<!--Page Title-->
     	<div class="page section-header text-center mb-0">
 			<div class="page-title">
@@ -12,6 +12,25 @@
       		</div>
 		</div>
         <!--End Page Title-->
+
+        {% if request.user.is_authenticated %}
+        {% if request.user == thread.user %}
+
+        <div class="row justify-content-center my-4">
+            <div class="col-12 text-center customer-box returning-customer">
+                <h3>Want to Delete Your Thread? 
+                    <a style="border:none" href="{% url 'core:remove-thread' thread.tid %}" 
+                       class="text-white text-decoration-underline"
+                       onclick="return confirmDelete();">
+                       Click here
+                    </a>
+                </h3>
+            </div>
+        </div>
+
+        {% endif %}
+        {% endif %}
+
         <br/>
         <div class="container">
         	<div class="row">
@@ -84,5 +103,12 @@
         
     </div>
 <!--End Body Content-->
+
+<script>
+    function confirmDelete() {
+        return confirm('Do you really want to delete this thread?');
+    }
+</script>
+
 
 {% endblock content %}

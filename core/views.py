@@ -566,3 +566,17 @@ def create_thread(request):
         return redirect('core:threads-list-view')
 
     return render(request, "core/create-thread.html")
+
+
+def remove_thread(request, tid):
+    thread = Thread.objects.get(tid=tid)
+
+    # First, delete all comments related to the thread
+    ThreadComment.objects.filter(thread=thread).delete()
+
+    # Now, delete the thread
+    thread.delete()
+
+    messages.success(request, "Thread and all related comments deleted successfully!")
+    return redirect('core:threads-list-view')
+
