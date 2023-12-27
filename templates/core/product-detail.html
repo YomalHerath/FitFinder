@@ -57,11 +57,7 @@
                                             <div class="product-stock"> <span class="instock ">In Stock</span> <span class="outstock hide">Unavailable</span> </div>
                                             <div class="product-sku">SKU: <span class="variant-sku">{{ product.sku }}</span></div>
                                             <div class="product-review"><a class="reviewLink" href="#tab2">
-                                                {% for r in reviews %}
-                                                    {% for s in r.rating|ljust:r.rating %}
-                                                        <i class="fa fa-star "></i>
-                                                    {% endfor %}
-                                                {% endfor %}
+                                                <i id="top-star-rating"></i>
                                                 <span class="spr-badge-caption">{{ reviews.count }} reviews</span></a></div>
                                         </div>
                                         <div class="prInfoRow">
@@ -178,13 +174,9 @@
                                         <div class="spr-header clearfix">
                                             <div class="spr-summary">
                                                 <span class="product-review">
-                                                {% for r in reviews %}
-                                                    {% for s in r.rating|ljust:r.rating %}
-                                                        <i class="fa fa-star "></i>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                                    <span class="spr-summary-actions-togglereviews">Based on {{ reviews.count }} reviews {{ average_rating.rating|floatformat:2 }} out of 5.0 </span></span>
-                                            </div>
+                                                <i id="star-rating"></i>
+                                                    <span class="spr-summary-actions-togglereviews">Based on {{ reviews.count }} reviews {{ average_rating.rating|floatformat:1 }} out of 5.0 </span></span>                                                    
+                                                </div>
                                         </div>
                                         <div class="spr-content">
                                             <div class="spr-form clearfix">
@@ -417,5 +409,15 @@
             <!--MainContent-->
         </div>
     	<!--End Body Content-->
-    
+<script>
+    let rating = {{ average_rating.rating }};
+    let stars = '';
+    for (let i = 0; i < rating; i++) {
+        stars += '<i class="fa fa-star "></i>';
+    }
+    document.getElementById('star-rating').innerHTML = stars;
+    document.getElementById('top-star-rating').innerHTML = stars;
+</script>
+        
 {% endblock content %}
+

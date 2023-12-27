@@ -14,7 +14,7 @@ $("#new-review-form").submit(function (e) {
             console.log("Saved to Database");
 
             // If the review was successfully saved
-            if (response.bool == true) {
+            if (response.bool === true) {
                 $("#review-success").html("Review Added Successfully.");
                 $("#hidden-comment-form").hide();
 
@@ -41,6 +41,8 @@ $("#new-review-form").submit(function (e) {
 
                 // Prepend the new review to the reviews container
                 $(".spr-reviews").prepend(_html);
+
+                window.location.href = '/product/' + response.context.pid
             }
         }
     });

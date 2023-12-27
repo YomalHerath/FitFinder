@@ -152,6 +152,7 @@ def add_review(request, pid):
         'user': user.username,
         'review': request.POST['review'],
         'rating': request.POST['rating'],
+        "pid": pid,
     }
 
     average_reviews = ProductReview.objects.filter(product=product).aggregate(rating=Avg("rating"))
