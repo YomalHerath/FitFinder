@@ -1,0 +1,79 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}    
+
+
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center mb-0">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Thread Article</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        <br/>
+        <div class="container">
+        	<div class="row">
+                <!--Main Content-->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+                    <div class="blog--list-view">
+                    	<div class="article"> 
+                            <!-- Article Image --> 
+                            <a class="article_featured-image"><img class="blur-up lazyload" src="{{ thread.image.url }}" alt="It's all about how you wear"></a> 
+                            <h1>{{ thread.title }}</h1>
+                            <ul class="publish-detail">                      
+                                <li><i class="anm anm-user-al" aria-hidden="true"></i>  {{ thread.user }}</li>
+                                <li><i class="icon anm anm-clock-r"></i> <time>{{ thread.date }}</time></li>
+                                <li>
+                                    <ul class="inline-list">   
+                                        <li><i class="icon anm anm-comments-l"></i> <a href="#"> 0 comments</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="rte"> 
+                                <p>{{ thread.description }}</p>
+                            </div>
+                            <hr/>
+                            
+                        </div>
+                        <div class="formFeilds contact-form form-vertical">
+                          <form method="post" action="#" id="comment_form" accept-charset="UTF-8" class="comment-form">
+                              <h2>Leave a comment</h2>
+                              <div class="row">
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                    <input type="text" id="ContactFormName" name="contact[name]" placeholder="Name" value="" required="">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                    <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" value="" required="">                        	
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                    <textarea required="" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Your Message"></textarea>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    <p class="fine-print">Please note, comments must be approved before they are published</p>
+                                    <input type="submit" class="btn" value="Send Message">
+                                </div>
+                             </div>
+                         </form>
+                        </div>
+                    </div>
+                </div>
+                <!--End Main Content-->
+            </div>
+        </div>
+        
+    </div>
+<!--End Body Content-->
+
+{% endblock content %}

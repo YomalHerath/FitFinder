@@ -19,7 +19,7 @@
                 <!--Main Content-->
                 <div class="col-12 col-sm-12 col-md-12 col-lg-qw main-col">
                 	<div class="custom-search">
-                        <form action="http://annimexweb.com/search" method="get" class="input-group search-header search" role="search" style="position: relative;">
+                        <form action="#" method="get" class="input-group search-header search" role="search" style="position: relative;">
                             <input class="search-header__input search__input input-group__field" type="search" name="q" placeholder="Search" aria-label="Search" autocomplete="off">
                             <span class="input-group__btn"><button class="btnSearch" type="submit"> <i class="icon anm anm-search-l"></i> </button></span>
                         </form>
@@ -27,7 +27,7 @@
                     <div class="blog--list-view">
                     	<div class="row">
                             {% for t in threads %}
-                                <div class="card col-12 col-sm-12 col-md-4 col-lg-4 article" style="padding:10px"> 
+                                <div class="card col-12 col-sm-12 col-md-4 col-lg-4 article" style="padding:10px; margin:15px"> 
                                     <!-- Article Image --> 
                                     <a class="article_featured-image" href="#"><img style="height:200px" class="blur-up lazyload" src="{{ t.image.url }}"></a> 
                                     <h2 class="h3"><a href="#">{{ t.title }}</a></h2>
@@ -38,7 +38,7 @@
                                     <div class="rte"> 
                                         <p>{{ t.description|truncatechars:100 }}</p>
                                          </div>
-                                    <p><a href="#" class="btn btn-secondary btn--small">Read More &nbsp; <i class="fa fa-arrow-right"></i></a></p>
+                                    <p><a href="{% url 'core:thread-detail' t.tid %}" class="btn btn-secondary btn--small">Read More &nbsp; <i class="fa fa-arrow-right"></i></a></p>
                                 </div>
                             {% endfor %}
                         </div>

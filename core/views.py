@@ -493,3 +493,13 @@ def threads_list_view(request):
     }
     
     return render(request, "core/threads.html", context)
+
+
+def thread_detail_view(request, tid):
+    thread = Thread.objects.get(tid=tid)
+    
+    context = {
+        "thread": thread,
+    }
+
+    return render(request, "core/thread-detail.html", context)
