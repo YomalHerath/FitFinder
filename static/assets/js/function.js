@@ -48,6 +48,30 @@ $(".new-review-form").submit(function (e) {
     });
 });
 
+
+// Adding New Comment 
+$("#new-comment-form").submit(function (e) {
+    e.preventDefault();
+
+    // AJAX request to save the review
+    $.ajax({
+        data: $(this).serialize(),
+        method: $(this).attr("method"),
+        url: $(this).attr("action"),
+        dataType: "json",
+        success: function (response) {
+            console.log("Saved to Database");
+
+            // If the review was successfully saved
+            if (response.bool == true) {
+                $("#comment-success").html("Comment Added Successfully.");
+                $("#new-comment-form").hide();
+                location.reload()
+            }
+        }
+    });
+});
+
 // Filtering products based on checkbox selections
 $(document).ready(function () {
     console.log("Script loaded");

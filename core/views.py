@@ -19,9 +19,9 @@ from core.admin import WishlistAdmin
 from django.db.models.functions import ExtractMonth
 from django.db.models import Count
 
-from core.models import Product, Vendor, Category, Thread, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
+from core.models import Product, ThreadComment, Vendor, Category, Thread, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
 from userauthentication.models import ContactUs
-from core.forms import ProductReviewForm
+from core.forms import ProductReviewForm, ThreadCommentForm
 
 
 def index(request):
@@ -416,6 +416,8 @@ def wishlist_view(request):
     return render(request, "core/wishlist.html", context)
 
 
+
+
 @login_required
 def add_to_wishlist(request):
     product_id = request.GET['id']
@@ -498,8 +500,51 @@ def threads_list_view(request):
 def thread_detail_view(request, tid):
     thread = Thread.objects.get(tid=tid)
     
+    #get thread comments
+    comments = ThreadComment.objects.filter(thread=thread).order_by("-date")
+
+    #product review form
+    comment_form = ThreadCommentForm()
+
+    make_comment = True
+
+    if request.user.is_authenticated:
+        user_comment_count = ThreadComment.objects.filter(user=request.user, thread=thread).count()
+
+        if user_comment_count > 0:
+            make_comment = False 
+    
     context = {
         "thread": thread,
+        "comments": comments,
+        "comment_form": comment_form,
+        "make_comment": make_comment,
     }
 
     return render(request, "core/thread-detail.html", context)
+
+
+def add_thread_comment(request, tid):
+
+    thread = Thread.objects.get(tid=tid)
+    user = request.user
+
+    comment = ThreadComment.objects.create(
+        user = user,
+        thread = thread,
+        comment = request.POST['comment'],
+    )
+
+    context = {
+        'user': user.username,
+        'comment': request.POST['comment'],
+    }
+
+    messages.warning(request, "Comment Added Successfully!")
+
+    return JsonResponse(
+        {
+        "bool": True,
+        "comment": context,
+        }
+    )

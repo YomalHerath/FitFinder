@@ -220,6 +220,9 @@ class Address(models.Model):
     class Meta:
         verbose_name_plural = "Addresses"
 
+####################################################################
+######################### Thread ###################################
+####################################################################
 class Thread(models.Model):
     tid = ShortUUIDField(unique=True, length=10, max_length=20, prefix="thr", alphabet="abcdefgh12345")
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -233,3 +236,17 @@ class Thread(models.Model):
     
     def thread_image(self):
         return mark_safe('<img src="%s" width="50px" height="50px" />' % (self.image.url))
+
+
+class ThreadComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    thread = models.ForeignKey(Thread, on_delete=models.SET_NULL, null=True, related_name="comment")
+    
+    comment = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Thread Comments"
+
+    def __str__(self):
+        return self.thread.title
