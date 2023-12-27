@@ -19,7 +19,7 @@ from core.admin import WishlistAdmin
 from django.db.models.functions import ExtractMonth
 from django.db.models import Count
 
-from core.models import Product, Vendor, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
+from core.models import Product, Vendor, Category, Thread, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
 from userauthentication.models import ContactUs
 from core.forms import ProductReviewForm
 
@@ -483,3 +483,13 @@ def ajax_contact_form(request):
     }
 
     return JsonResponse({"data":data})
+
+
+def threads_list_view(request):
+    threads = Thread.objects.all()
+
+    context = {
+        "threads": threads
+    }
+    
+    return render(request, "core/threads.html", context)

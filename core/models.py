@@ -219,3 +219,17 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = "Addresses"
+
+class Thread(models.Model):
+    tid = ShortUUIDField(unique=True, length=10, max_length=20, prefix="thr", alphabet="abcdefgh12345")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=200, null=True)
+    description = models.TextField(null=True, blank=True, default="This is thread description")
+    image = models.ImageField(upload_to="user_directory_path", default="thread.png")
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+    
+    def thread_image(self):
+        return mark_safe('<img src="%s" width="50px" height="50px" />' % (self.image.url))
