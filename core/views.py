@@ -523,7 +523,7 @@ def thread_detail_view(request, tid):
 
     return render(request, "core/thread-detail.html", context)
 
-
+@login_required
 def add_thread_comment(request, tid):
 
     thread = Thread.objects.get(tid=tid)
@@ -549,7 +549,7 @@ def add_thread_comment(request, tid):
         }
     )
 
-
+@login_required
 def create_thread(request):
 
     if request.method == "POST":
