@@ -1,64 +1,49 @@
 {% extends 'partials/base.html' %}
 {% load static %}
-{% block content %}    
-
+{% block content %}
 
 <!--Body Content-->
-    <div id="page-content">
-    	<!--Page Title-->
-    	<div class="page section-header text-center mb-0">
-			<div class="page-title">
-        		<div class="wrapper"><h1 class="page-width">Threads</h1></div>
-      		</div>
-		</div>
-        <!--End Page Title-->
+<div id="page-content">
+    <!--Page Title-->
+    <div class="page section-header text-center mb-0">
+        <div class="page-title">
+            <div class="wrapper"><h1 class="page-width">Threads</h1></div>
+        </div>
+    </div>
+    <!--End Page Title-->
 
-        <br/>
-        <div class="container">
-        	<div class="row">
-                <!--Main Content-->
-                <div class="col-12 col-sm-12 col-md-12 col-lg-qw main-col">
-                	<div class="custom-search">
-                        <form action="#" method="get" class="input-group search-header search" role="search" style="position: relative;">
-                            <input class="search-header__input search__input input-group__field" type="search" name="q" placeholder="Search" aria-label="Search" autocomplete="off">
-                            <span class="input-group__btn"><button class="btnSearch" type="submit"> <i class="icon anm anm-search-l"></i> </button></span>
-                        </form>
-                    </div>
-                    <div class="blog--list-view">
-                    	<div class="row">
-                            {% for t in threads %}
-                                <div class="card col-12 col-sm-12 col-md-4 col-lg-4 article" style="padding:10px; margin:15px"> 
-                                    <!-- Article Image --> 
-                                    <a class="article_featured-image" href="{% url 'core:thread-detail' t.tid %}"><img style="height:200px" class="blur-up lazyload" src="{{ t.image.url }}"></a> 
-                                    <h2 class="h3"><a href="{% url 'core:thread-detail' t.tid %}">{{ t.title|truncatechars:75 }}</a></h2>
-                                    <ul class="publish-detail">                      
-                                        <li><i class="anm anm-user-al" aria-hidden="true"></i>&nbsp;<span>{{ t.user }}</span></li>
-                                        <li><i class="icon anm anm-clock-r"></i> <time>{{ t.date|date:"d M, Y" }}</time></li>
-                                    </ul>
-                                    <div class="rte"> 
-                                        <p>{{ t.description|truncatechars:100 }}</p>
-                                         </div>
-                                    <p><a href="{% url 'core:thread-detail' t.tid %}" class="btn btn-secondary btn--small">Read More &nbsp; <i class="fa fa-arrow-right"></i></a></p>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <hr/>
-                        <div class="pagination">
-                            <ul>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li class="next"><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>
-                            </ul>
-                    	</div>
-                    </div>
-                </div>
-                <!--End Main Content-->
+    <div class="container">
+        <!-- Customer Box -->
+        <div class="row justify-content-center my-4">
+            <div class="col-12 text-center customer-box returning-customer">
+                <h3>Want to Post Your Own Thread? <a href="{% url 'core:create-thread' %}" class="text-white text-decoration-underline">Click here</a></h3>
             </div>
         </div>
-        
+
+        <!-- Cards -->
+        <div class="row justify-content-center">
+            {% for t in threads %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card">
+                        <!-- Article Image -->
+                        <a class="article_featured-image" href="{% url 'core:thread-detail' t.tid %}">
+                            <img class="blur-up lazyload" src="{{ t.image.url }}" alt="Card image cap">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'core:thread-detail' t.tid %}">{{ t.title }}</a></h5>
+                            <p class="card-text">{{ t.description|truncatechars:100 }}</p>
+                            <a href="{% url 'core:thread-detail' t.tid %}" class="btn btn-primary">Read More</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Posted by {{ t.user }} on {{ t.date|date:"d M, Y" }}</small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
     </div>
+</div>
 <!--End Body Content-->
-
-
 
 {% endblock content %}

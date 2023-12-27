@@ -1,0 +1,62 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}   
+
+<!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Create a Thread</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+
+		
+        <div class="container">
+            <div class="row">
+            	<div class="col-12 col-sm-12 col-md-4 col-lg-12 mb-12">
+
+                    <h3 class="h3" id="message-response"></h3>
+                	<div class="formFeilds contact-form form-vertical">
+                      <form action="" method="POST"  id="create_thread_from" class="thread-form" enctype="multipart/form-data">	
+                        {% csrf_token %}
+                      <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        	<div class="form-group">
+                          	<input type="text" id="title" name="title" placeholder="Title" value="" required="">
+                            </div>
+                        </div>
+                      </div>
+					  <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        	<div class="form-group">
+                          	<input type="file" id="image" class="form-control form-control-sm" name="image" placeholder="Image" required="">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        	<div class="form-group">
+                            <textarea required="" rows="25" id="description" name="description" placeholder="Your Message"></textarea>
+                            </div>
+                        </div>  
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="submit" class="btn" value="Submit Thread">
+                        </div>
+                     </div>
+                     </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+
+    </div>
+<!--End Body Content-->
+
+    
+{% endblock content %}

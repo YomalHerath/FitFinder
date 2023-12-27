@@ -548,3 +548,21 @@ def add_thread_comment(request, tid):
         "comment": context,
         }
     )
+
+
+def create_thread(request):
+
+    if request.method == "POST":
+        thread = Thread()
+        thread.user = request.user
+        thread.title = request.POST.get('title')
+        thread.description = request.POST.get('description')
+
+        if len(request.FILES) != 0:
+            thread.image = request.FILES['image']
+
+        thread.save()
+        messages.success(request, "Thread Added Successfully!")
+        return redirect('core:threads-list-view')
+
+    return render(request, "core/create-thread.html")

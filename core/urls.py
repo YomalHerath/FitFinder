@@ -1,6 +1,6 @@
 
 from django.urls import include, path
-from core.views import add_to_wishlist, contact, add_thread_comment, thread_detail_view, threads_list_view, ajax_contact_form, customer_dashboard, index, make_address_default, order_detail, remove_wishlist, update_cart, payment_failed_view, payment_completed_view, checkout_view, about_us, delete_item_from_cart, category_list_view, cart_view, add_to_cart, filter_product, product_list_view, add_review, category_product_list_view, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view, wishlist_view
+from core.views import add_to_wishlist, contact, add_thread_comment, create_thread, thread_detail_view, threads_list_view, ajax_contact_form, customer_dashboard, index, make_address_default, order_detail, remove_wishlist, update_cart, payment_failed_view, payment_completed_view, checkout_view, about_us, delete_item_from_cart, category_list_view, cart_view, add_to_cart, filter_product, product_list_view, add_review, category_product_list_view, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view, wishlist_view
 
 app_name = "core"
 
@@ -88,4 +88,7 @@ urlpatterns = [
 
     # Add Thread Comment
     path("add-thread-comment/<tid>/", add_thread_comment, name="add-thread-comment"),
+    
+    # Create Thread
+    path("create-thread", create_thread, name="create-thread"),
 ]
