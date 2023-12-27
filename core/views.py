@@ -148,7 +148,7 @@ def add_review(request, pid):
         rating = request.POST['rating'],
     )
 
-    context = {
+    data = {
         'user': user.username,
         'review': request.POST['review'],
         'rating': request.POST['rating'],
@@ -158,12 +158,12 @@ def add_review(request, pid):
 
     return JsonResponse(
         {
-        'bool': True,
-        'context': context,
-        'average_reviews': average_reviews,
+        "bool": True,
+        "context": data,
+        "average_reviews": average_reviews,
         }
     )
-    
+
 
 def search_view(request):
     query = request.GET.get("q")
