@@ -1,7 +1,7 @@
 // Submitting a review form via AJAX
 console.log("Done");
 
-$("#new-review-form").submit(function (e) {
+$(".new-review-form").submit(function (e) {
     e.preventDefault();
 
     // AJAX request to save the review
@@ -14,9 +14,9 @@ $("#new-review-form").submit(function (e) {
             console.log("Saved to Database");
 
             // If the review was successfully saved
-            if (response.bool === true) {
+            if (response.bool == true) {
                 $("#review-success").html("Review Added Successfully.");
-                $("#hidden-comment-form").hide();
+                $(".new-review-form").hide();
 
                 // Create HTML for displaying the new review
                 let _html = '<div class="spr-review">';
@@ -42,7 +42,7 @@ $("#new-review-form").submit(function (e) {
                 // Prepend the new review to the reviews container
                 $(".spr-reviews").prepend(_html);
 
-                window.location.href = '/product/' + response.context.pid
+                location.reload()
             }
         }
     });
