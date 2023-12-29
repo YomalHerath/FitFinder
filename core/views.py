@@ -1,4 +1,6 @@
+import os
 import calendar
+from pyexpat import model
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from taggit.models import Tag
@@ -7,6 +9,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.shortcuts import redirect
+from sklearn.preprocessing import LabelEncoder
 from django.urls import reverse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -14,6 +17,9 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from core.admin import WishlistAdmin
+from .forms import StyleForm
+import joblib
+import pandas as pd
 
 # import calander
 from django.db.models.functions import ExtractMonth
@@ -580,3 +586,70 @@ def remove_thread(request, tid):
     messages.success(request, "Thread and all related comments deleted successfully!")
     return redirect('core:threads-list-view')
 
+
+
+############################################################################################################
+############################################################################################################
+
+
+
+# model_path = os.path.join(settings.BASE_DIR, 'static/assets/machine_learning_model/fashion_recommender_model.pkl')
+# recommendation_model = joblib.load(model_path)
+
+# Function to initialize encoders
+def initialize_encoders():
+    data = pd.read_csv('static/assets/machine_learning_model/fashion_data.csv')
+    encoders = {column: LabelEncoder().fit(data[column]) for column in data.columns}
+    return encoders
+
+# Initialize encoders
+encoders = initialize_encoders()
+
+
+def get_style_recommendation(request):
+    recommendation = None
+    if request.method == 'POST':
+        form = StyleForm(request.POST)
+        if form.is_valid():
+            recommendation = generate_recommendation(form.cleaned_data)
+    else:
+        form = StyleForm()
+
+    return render(request, 'core/recommendation.html', {'form': form, 'recommendation': recommendation})
+
+
+def generate_recommendation(form_data):
+    model_path = 'static/assets/machine_learning_model/fashion_recommender_model_decision_tree.pkl'
+    recommendation_model = joblib.load(model_path)
+
+    # Adjust and encode form data
+    encoded_input = []
+    for column in ['Gender', 'AgeRange', 'FavoriteColor', 'Season', 'Occasion', 'ClothingType']:
+        # Correctly format the field name to match form field names
+        field_name = ''.join(['_' + i.lower() if i.isupper() else i for i in column]).lstrip('_')
+        encoder = encoders[column]
+        encoded_value = encoder.transform([form_data[field_name]])[0]
+        encoded_input.append(encoded_value)
+
+    # Predict using the model
+    predicted_color_index = recommendation_model.predict([encoded_input])[0]
+    recommended_color = encoders['RecommendedColor'].inverse_transform([predicted_color_index])[0]
+
+    return f"We recommend a color: {recommended_color}"
+
+
+
+
+# You need to initialize these label encoders when training your model
+# and use the same encoders here.
+gender_encoder = LabelEncoder()
+age_range_encoder = LabelEncoder()
+favorite_color_encoder = LabelEncoder()
+# ... (initialization for other encoders)
+
+def encode_data(data):
+    data['Gender'] = gender_encoder.transform(data['Gender'])
+    data['AgeRange'] = age_range_encoder.transform(data['AgeRange'])
+    data['FavoriteColor'] = favorite_color_encoder.transform(data['FavoriteColor'])
+    # ... (encoding for other features)
+    return data
