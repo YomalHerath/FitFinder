@@ -325,16 +325,17 @@ $(document).ready(function () {
 
 
     $(document).on("submit", "#contact_form_ajax", function(e){
-        e.preventDefault()
+        e.preventDefault();
         console.log("Form Submitted");
 
-        let full_name = $("#full_name").val()
-        let email = $("#email").val()
-        let phone = $("#phone").val()
-        let subject = $("#subject").val()
-        let message = $("#message").val()
+        let full_name = $("#full_name").val();
+        let email = $("#email").val();
+        let phone = $("#phone").val();
+        let subject = $("#subject").val();
+        let message = $("#message").val();
+        let experience = $("#experience").val();  // Get the value of the experience dropdown
 
-        console.log("Form Details: ", full_name, email, phone, subject, message);
+        console.log("Form Details: ", full_name, email, phone, subject, message, experience);
 
         $.ajax({
             url: "/ajax-contact-form",
@@ -344,18 +345,20 @@ $(document).ready(function () {
                 "phone": phone,
                 "subject": subject,
                 "message": message,
+                "experience": experience,
             },
             dataType: 'json',
             beforeSend: function(){
-                console.log("Sending Data Server");
+                console.log("Sending Data to Server");
             },
             success: function(response){
                 console.log("Sent Data to Server");
-                $("#contact_form_ajax").hide()
-                $("#message-response").html("Message Sent Successfully!")
+                $("#contact_form_ajax").hide();
+                $("#message-response").html("Message Sent Successfully!");
             }
-        })
-    })
+        });
+    });
+
 
 });
 

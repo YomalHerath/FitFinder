@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+EXPERIENCE_STATUS = (
+    (1, "Very Satisfied"),
+    (2, "Satisfied"),
+    (3, "Neutral"),
+    (4, "Dissatisfied"),
+    (5, "Very Dissatisfied"),
+)
+
 # Create your models here.
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -20,6 +28,7 @@ class ContactUs(models.Model):
     phone = models.CharField(max_length=200)
     subject = models.CharField(max_length=200)
     message = models.TextField()
+    experience = models.IntegerField(choices=EXPERIENCE_STATUS, default=None)
 
     class Meta:
         verbose_name = 'Contact Us'

@@ -476,6 +476,7 @@ def ajax_contact_form(request):
     phone = request.GET['phone']
     subject = request.GET['subject']
     message = request.GET['message']
+    experience = int(request.GET['experience'])
 
     contact = ContactUs.objects.create(
         full_name = full_name,
@@ -483,6 +484,7 @@ def ajax_contact_form(request):
         phone = phone,
         subject = subject,
         message = message,
+        experience = experience,
     )
 
     data = {
