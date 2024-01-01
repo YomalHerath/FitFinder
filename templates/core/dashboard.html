@@ -7,7 +7,7 @@
     	<!--Page Title-->
     	<div class="page section-header text-center">
 			<div class="page-title">
-        		<div class="wrapper"><h1 class="page-width">Hello! {{request.user|title}}, Welcome to Your Account</h1></div>
+        		<div class="wrapper"><h1 class="page-width">Hello! {{ profile.full_name }}, Welcome to Your Account</h1></div>
       		</div>
 		</div>
         <!--End Page Title-->
@@ -16,15 +16,59 @@
             <div class="row">
                 <div class="col-6">
 
-                    
-                    <h2>Your Monthly Orders Chart View</h2>
                     <div>
-                        <canvas style="height: 200px" id="myChart"></canvas>
+                        <h2>Profile Details</h2>
+                        <form class="mb-4 rte-setting border" method="POST">
+                            <div class="card-header"><h3> Profile Details </h3></div>
+                            <br/>
+                            {% if profile.image %}
+                            <div class="form-group col-md-12">
+                                <img src="{{ profile.image.url }}" style="margin-left:20px; width:150px; height:150px; object-fit:cover; border-radius:50%; border: 1.5px solid #B2BEB5;">
+                            </div>
+                            {% else %}
+                            <div class="form-group col-md-12">
+                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Full Name Field -->
+                            <div class="form-group col-md-12">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <p class="form-control">{{ profile.full_name }}</p>
+                            </div>
+                        
+                            <!-- Bio Field -->
+                            <div class="form-group col-md-12">
+                                <label for="bio" class="form-label">Bio</label>
+                                <p class="form-control">{{ profile.bio }}</p>
+                            </div>
+                        
+                            <!-- Phone Field -->
+                            <div class="form-group col-md-12">
+                                <label for="phone" class="form-label">Phone</label>
+                                <p class="form-control">{{ profile.phone }}</p>
+                            </div>
+                            
+                            
+                            <div class="form-group col-md-12">
+                                {% if profile.verified == True %}
+                                    <i class="fa fa-check-square" style="color:green"><span>Verified</i><span>
+                                {% else %}
+                                    <i class="fa fa-close" style="color:red"><span>Not Verified</i><span>
+                                {% endif %}
+                            </div>
+                        
+                            
+
+                            <!-- Submit Button -->
+                            <div class="col-md-12">
+                                <a class="btn btn--small btn-black" href="{% url 'userauthentication:profile-update' %}">Update Details</a>
+                            </div>
+                            <br/>
+                            <p>
+                        </form>
                     </div>
-
-                    <br>
-                    <br>
-
+                    
                     <h2>Your Orders</h2>
                     <div class="table-responsive-sm">
                         <table class="table table-striped">
@@ -61,6 +105,15 @@
                 </div>
 
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+
+                    <h2>Your Monthly Orders Chart View</h2>
+                    <div>
+                        <canvas style="height: 200px" id="myChart"></canvas>
+                    </div>
+
+                    <br>
+                    <br>
+
                 	<h2 class="h2">Shipping Addresses</h2>
                     
                     <div>

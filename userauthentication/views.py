@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from userauthentication.forms import UserRegisterForm
+from userauthentication.forms import UserRegisterForm, ProfileForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.conf import settings
-from userauthentication.models import User
+from userauthentication.models import Profile, User
 
 
 # Create your views here.
@@ -62,3 +62,24 @@ def logout_view(request):
     logout(request)
     messages.success(request, "User Logged Out.")
     return redirect("userauthentication:sign-in")
+
+
+def profile_update(request):
+    profile = Profile.objects.get(user=request.user)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profile_save = form.save(commit=False)
+            profile_save.user = request.user
+            profile_save.save()
+            messages.success(request, "Profile Updated Successfully!")
+            return redirect("core:dashboard")
+    else:
+        form = ProfileForm(instance=profile)  # Initialize form for GET request
+
+    context = {
+        "form": form,
+        "profile": profile,
+    }
+
+    return render(request, 'userauthentication/profile-update.html', context)

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
 
 EXPERIENCE_STATUS = (
     (1, "Very Satisfied"),
@@ -21,6 +22,17 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
     
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="image")
+    full_name = models.CharField(max_length=200)
+    bio = models.CharField(max_length=300, null=True, blank=True)
+    phone = models.CharField(max_length=200)
+    verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.user.username} - {self.bio}"
 
 class ContactUs(models.Model):
     full_name = models.CharField(max_length=200)

@@ -1,0 +1,72 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+<!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Hello! {{ profile.full_name }}, Welcome to Your Account</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+
+        <div class="container">
+                <div class="col-12">
+
+                    <div>
+                        <h2>Update Your Profile Details</h2>
+                        {% if form.errors %}
+                        <div class="alert-danger alert">
+                            <strong>{{ form.errors  }}</strong>
+                        </div>
+                        {% endif %}
+                        <form class="mb-4 rte-setting border" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <br/>
+
+                            {% if profile.image %}
+                            <div class="form-group col-md-12">
+                                <img src="{{ profile.image.url }}" style="margin-left:20px; width:150px; height:150px; object-fit:cover; border-radius:50%; border: 1.5px solid #B2BEB5;">
+                            </div>
+                            {% else %}
+                            <div class="form-group col-md-12">
+                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
+                            </div>
+                            {% endif %}
+                            <br/>
+                            
+                            <div class="container form-group">
+                                {{ form.full_name }}
+                            </div>
+                            <div class="container form-group">
+                                {{ form.bio }}
+                            </div>
+                            <div class="container form-group">
+                                {{ form.phone }}
+                            </div>
+                            <div class="container form-group">
+                                {{ form.image }}
+                            </div>
+                            
+                            <br/>
+
+                            <!-- Submit Button -->
+                            <div class="col-md-12 container">
+                                <button class="btn btn--small btn-black" type="submit" name="submit" value="Sumbit">Save Changes</button>
+                            </div>
+                            <br/>
+                            <p>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+<!--End Body Content-->
+
+
+{% endblock content %}

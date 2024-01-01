@@ -26,7 +26,7 @@ from django.db.models.functions import ExtractMonth
 from django.db.models import Count
 
 from core.models import Product, ThreadComment, Vendor, Category, Thread, ProductImages, CartOrder, CartOrderItems, ProductReview, Wishlist, Address
-from userauthentication.models import ContactUs
+from userauthentication.models import ContactUs, Profile
 from core.forms import ProductReviewForm, ThreadCommentForm
 
 
@@ -359,6 +359,8 @@ def customer_dashboard(request):
     orders_list = CartOrder.objects.filter(user=request.user).order_by("-id")
     address = Address.objects.filter(user=request.user)
 
+    profile = Profile.objects.get(user=request.user)
+
     orders =CartOrder.objects.annotate(month=ExtractMonth("order_date")).values("month").annotate(count=Count("id")).values("month", "count")
     month =[]
     total_orders = []
@@ -382,13 +384,13 @@ def customer_dashboard(request):
 
     context = {
         "orders_list": orders_list,
+        "profile": profile,
         "orders": orders,
         "address": address,
         "month": month,
         "total_orders": total_orders,
     }
     return render(request, 'core/dashboard.html', context)
-
 
 @login_required
 def order_detail(request, id):
