@@ -12,16 +12,40 @@
         </div>
         <!--End Page Title-->
          
+        
         <div class="container">
-            <!-- Form for image upload -->
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <!-- Include an input for file upload and give it an ID -->
-                <div class="custom-file mb-3">
-                    <input type="file" class="custom-file-input" id="shirt-image-upload" name="shirt_image" placeholder="Input the background removed shirt design">
-                    <label class="custom-file-label" for="shirt-image-upload">Choose shirt design...</label>
+
+            <div class="card">
+                <div class="card-body">
+                    <!-- Step 1 -->
+                    <h2 class="card-title">Step 1: Remove the Background</h2>
+                    <p>Use an online background removal tool to clear the background from your shirt image.</p>
+                    <ol>
+                        <li>Visit <a href="https://www.remove.bg/" target="_blank">background remover web site</a>.</li>
+                        <li>Click 'Upload Image' and select your shirt image.</li>
+                        <li>Download the image with a transparent background.</li>
+                    </ol>
                 </div>
-            </form>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <!-- Form for image upload -->
+                    <h2 class="card-title">Step 2: Upload Your Shirt Image</h2>
+                    <p>Once you have your shirt image without a background, upload it below.</p>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- Include an input for file upload and give it an ID -->
+                        <div class="custom-file mb-3">
+                            <label for="shirt-image-upload">Shirt Image (with transparent background):</label>
+                            <input type="file" class="custom-file-input" id="shirt-image-upload" name="shirt_image" placeholder="Input the background removed shirt design">
+                            <label class="custom-file-label" for="shirt-image-upload">Choose shirt design...</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
         <div align="center">
             <br>
@@ -127,8 +151,8 @@
 
             // The scale factor may need to be adjusted based on the size of the shirt image
             // and the desired appearance of the shirt on the body.
-            const scaleWidth = 1.5; // Scale width factor, adjust as needed
-            const scaleHeight = 1.2; // Scale height factor, adjust as needed based on the shirt image's aspect ratio
+            const scaleWidth = 1.5; // Scale width factor,
+            const scaleHeight = 1.2; // Scale height factor, 
 
             const shirtWidth = shouldersDistance * scaleWidth;
             const shirtHeight = shirtWidth * scaleHeight; // This assumes the shirt image has similar width and height
