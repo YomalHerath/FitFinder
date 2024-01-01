@@ -1,0 +1,166 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %} 
+
+<body>
+    <div id="page-content">
+        <!--Page Title-->
+        <div class="page section-header text-center">
+            <div class="page-title">
+                <div class="wrapper"><h1 class="page-width">Try Out Your Design</h1></div>
+            </div>
+        </div>
+        <!--End Page Title-->
+         
+        <div class="container">
+            <!-- Form for image upload -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Include an input for file upload and give it an ID -->
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" id="shirt-image-upload" name="shirt_image" placeholder="Input the background removed shirt design">
+                    <label class="custom-file-label" for="shirt-image-upload">Choose shirt design...</label>
+                </div>
+            </form>
+        </div>
+        <div align="center">
+            <br>
+            <!-- Display the processed image after server-side processing -->
+            {% if output_image_url %}
+                <img src="{{ output_image_url }}" alt="Fitted Shirt" />
+            {% endif %}
+            <br>
+            <!-- Video and Canvas elements for real-time pose detection and shirt overlay -->
+            <video id="video" width="640" height="480" autoplay></video>
+            <canvas id="canvas" width="640" height="480"></canvas>
+        </div>
+    </div>
+
+    <!-- TensorFlow.js libraries for pose detection -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+
+
+    <script>
+    // JavaScript for real-time pose detection and shirt overlay
+
+    let video;
+    let model;
+    let canvas;
+    let ctx;
+    let shirtImage = new Image();
+
+    // Function to handle the image upload and load the shirt image
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            shirtImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Bind the function to your image upload input
+    document.getElementById('shirt-image-upload').addEventListener('change', handleImageUpload);
+
+
+
+    async function setupCamera() {
+        video = document.getElementById('video');
+        const stream = await navigator.mediaDevices.getUserMedia({ 'video': true });
+        video.srcObject = stream;
+
+        return new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+                resolve(video);
+            };
+        });
+    }
+
+    async function loadPoseModel() {
+        model = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
+            runtime: 'tfjs',
+            modelType: 'full'
+        });
+    }
+
+    async function detectPose() {
+        const poses = await model.estimatePoses(video);
+        // Clear the previous canvas frame
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the video frame onto the canvas
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        // Continue with pose detection and overlay
+        drawPoses(poses);
+        requestAnimationFrame(detectPose);
+    }
+
+
+    function drawPoses(poses) {
+        for (const pose of poses) {
+            for (const keypoint of pose.keypoints) {
+                if (keypoint.score > 0.5) {
+                    const {x, y} = keypoint;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // New overlay logic
+        if (poses.length > 0) {
+            const pose = poses[0]; // Assuming you want to overlay on the first detected pose
+            overlayShirt(pose);
+        }
+    }
+
+    function overlayShirt(pose) {
+        const leftShoulder = pose.keypoints.find(k => k.name === 'left_shoulder');
+        const rightShoulder = pose.keypoints.find(k => k.name === 'right_shoulder');
+        // Ensure that the keypoints exist and have a high enough score to be reliable
+        if (leftShoulder && rightShoulder && leftShoulder.score > 0.5 && rightShoulder.score > 0.5) {
+            // Calculate the shirt size based on the distance between the shoulders
+            const shouldersDistance = Math.abs(rightShoulder.x - leftShoulder.x);
+
+            // The scale factor may need to be adjusted based on the size of the shirt image
+            // and the desired appearance of the shirt on the body.
+            const scaleWidth = 1.5; // Scale width factor, adjust as needed
+            const scaleHeight = 1.2; // Scale height factor, adjust as needed based on the shirt image's aspect ratio
+
+            const shirtWidth = shouldersDistance * scaleWidth;
+            const shirtHeight = shirtWidth * scaleHeight; // This assumes the shirt image has similar width and height
+
+            // Calculate the position to place the top-left corner of the shirt image
+            // Adjust the x and y offsets as needed to position the shirt image correctly
+            const shirtX = leftShoulder.x - (shirtWidth * 0.85); // Center the shirt on the x-axis
+            const shirtY = leftShoulder.y - (shirtHeight * 0.1); // Adjust this value to position the shirt higher or lower
+
+            // Draw the shirt image onto the canvas
+            ctx.drawImage(shirtImage, shirtX, shirtY, shirtWidth, shirtHeight);
+        }
+    }
+
+
+
+    async function main() {
+        await setupCamera();
+        video.play();
+        canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+
+        await loadPoseModel();
+        detectPose();
+    }
+
+    window.onload = main;
+
+
+    </script>
+
+</body>
+
+
+{% endblock content %}

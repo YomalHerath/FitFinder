@@ -1,5 +1,5 @@
 from django import forms
-from core.models import ProductReview, ThreadComment
+from core.models import ProductReview, ThreadComment, UploadedImage
 
 class ProductReviewForm(forms.ModelForm):
     review = forms.CharField(widget=forms.Textarea())
@@ -15,6 +15,12 @@ class ThreadCommentForm(forms.ModelForm):
     class Meta:
         model = ThreadComment
         fields = ['comment']
+
+
+class ImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = UploadedImage
+        fields = ['image']
 
 
 

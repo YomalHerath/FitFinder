@@ -655,3 +655,107 @@ def encode_data(data):
     data['FavoriteColor'] = favorite_color_encoder.transform(data['FavoriteColor'])
     # ... (encoding for other features)
     return data
+
+
+########################################################################################
+########################################################################################
+########################################################################################
+
+from django.shortcuts import render
+from .forms import ImageUploadForm
+from .models import UploadedImage
+from django.core.files.base import ContentFile
+from PIL import Image
+from io import BytesIO
+import cv2
+import mediapipe as mp
+import numpy as np
+
+
+def image_process_and_overlay(uploaded_img_path, shirt_img_path):
+    # Initialize MediaPipe Pose.
+    mp_pose = mp.solutions.pose
+    pose = mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.5)
+    mp_drawing = mp.solutions.drawing_utils
+
+    # Load the uploaded image.
+    img = cv2.imread(uploaded_img_path)
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # Load the shirt image.
+    shirt_img = cv2.imread(shirt_img_path, cv2.IMREAD_UNCHANGED)
+
+    # Process the image and find the pose.
+    results = pose.process(img_rgb)
+
+    if results.pose_landmarks:
+        landmarks = results.pose_landmarks.landmark
+
+        # Calculate the midpoints for the shoulders and hips
+        shoulder_midpoint_x = int((landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x + landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x) * 0.5 * img.shape[1])
+        shoulder_y = int((landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y + landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y) * 0.5 * img.shape[0])
+
+        # Calculate the width and height of the shirt using shoulder and hip landmarks
+        scale_width = 1.6  # scale factor
+        scale_height = 1.4  # scale factor 
+        shirt_width = int(abs(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x - landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x) * img.shape[1] * scale_width)
+        shirt_height = int(abs(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y - landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y) * img.shape[0] * scale_height)
+
+        # Resize the shirt image
+        resized_shirt_img = cv2.resize(shirt_img, (shirt_width, shirt_height))
+
+        # Calculate the x offset to center the shirt
+        x_offset = shoulder_midpoint_x - (shirt_width // 2)
+        y_offset = shoulder_y - (resized_shirt_img.shape[0] // 10)  # Adjust vertical position
+
+        # Overlay the shirt image
+        for y in range(resized_shirt_img.shape[0]):
+            for x in range(resized_shirt_img.shape[1]):
+                if resized_shirt_img[y, x, 3] > 0:  # Check the alpha channel
+                    target_y = y_offset + y
+                    target_x = x_offset + x
+                    if 0 <= target_x < img.shape[1] and 0 <= target_y < img.shape[0]:
+                        img[target_y, target_x] = resized_shirt_img[y, x][:3]
+
+    # Release MediaPipe resources
+    pose.close()
+
+    # Convert the image from BGR to RGB before saving
+    final_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    return final_img
+
+
+def upload_and_process(request):
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_image = form.save()
+
+            # Process the image and overlay the shirt
+            # Assume 'shirt_img_path' is the path to a default shirt image
+            output_image = image_process_and_overlay(uploaded_image.image.path, 'path_to_default_shirt_image')
+
+            # Convert the OpenCV image to a PIL image
+            pil_img = Image.fromarray(output_image)
+
+            # Save the PIL image to a BytesIO object
+            buffer = BytesIO()
+            pil_img.save(buffer, format="JPEG")
+            buffer.seek(0)
+
+            # Create a Django ContentFile from the BytesIO object
+            image_file = ContentFile(buffer.read(), name='output.jpg')
+
+            # Save the processed image as a new object
+            new_image = UploadedImage.objects.create(image=image_file)
+
+            # Prepare the image URL for displaying in the template
+            image_url = new_image.image.url
+
+            context = {'form': form, 'output_image_url': image_url}
+            return render(request, 'core/try_out.html', context)
+
+    else:
+        form = ImageUploadForm()
+    return render(request, 'core/try_out.html', {'form': form})

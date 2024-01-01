@@ -247,3 +247,7 @@ class ThreadComment(models.Model):
 
     class Meta:
         verbose_name_plural = "Thread Comments"
+
+
+class UploadedImage(models.Model):
+    image = models.ImageField(upload_to='uploaded_images/')
