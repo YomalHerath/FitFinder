@@ -43,6 +43,12 @@
                             <label class="custom-file-label" for="shirt-image-upload">Choose shirt design...</label>
                         </div>
                     </form>
+
+                    <div align="center">
+                        <label for="shirt-size">Adjust Shirt Size:</label>
+                        <input type="range" id="shirt-size" min="0.5" max="2" step="0.1" value="1">
+                    </div>
+
                 </div>
             </div>
 
@@ -73,6 +79,9 @@
     let canvas;
     let ctx;
     let shirtImage = new Image();
+    let scale = 1; // Global variable for scale
+    let scaleWidth = 1.5; // Scale width factor
+    let scaleHeight = 1.2; // Scale height factor
 
     // Function to handle the image upload and load the shirt image
     function handleImageUpload(event) {
@@ -151,11 +160,8 @@
 
             // The scale factor may need to be adjusted based on the size of the shirt image
             // and the desired appearance of the shirt on the body.
-            const scaleWidth = 1.5; // Scale width factor,
-            const scaleHeight = 1.2; // Scale height factor, 
-
-            const shirtWidth = shouldersDistance * scaleWidth;
-            const shirtHeight = shirtWidth * scaleHeight; // This assumes the shirt image has similar width and height
+            const shirtWidth = shouldersDistance * scaleWidth * scale;
+            const shirtHeight = shirtWidth * scaleHeight; 
 
             // Calculate the position to place the top-left corner of the shirt image
             // Adjust the x and y offsets as needed to position the shirt image correctly
@@ -166,6 +172,13 @@
             ctx.drawImage(shirtImage, shirtX, shirtY, shirtWidth, shirtHeight);
         }
     }
+
+    // Add an event listener for the shirt size slider
+    document.getElementById('shirt-size').addEventListener('input', function(event) {
+        scale = event.target.value;
+        // Trigger pose detection to immediately reflect the size change
+        detectPose();
+    });
 
 
 
