@@ -759,3 +759,38 @@ def upload_and_process(request):
     else:
         form = ImageUploadForm()
     return render(request, 'core/try_out.html', {'form': form})
+
+
+def upload_and_process_with_id(request, product_id=None):
+    product_image_url = None
+    image_url = None
+    form = ImageUploadForm()
+
+    if product_id:
+        product = get_object_or_404(Product, pk=product_id)
+        product_image_url = product.image.url if product.image else None
+    elif request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_image = form.save()
+
+            # Assume 'path_to_default_shirt_image' is a valid path to the default shirt image
+            output_image = image_process_and_overlay(uploaded_image.image.path, 'path_to_default_shirt_image')
+
+            # Convert to PIL image, save to BytesIO, create ContentFile
+            pil_img = Image.fromarray(output_image)
+            buffer = BytesIO()
+            pil_img.save(buffer, format="JPEG")
+            buffer.seek(0)
+            image_file = ContentFile(buffer.read(), name='output.jpg')
+
+            # Save processed image
+            new_image = UploadedImage.objects.create(image=image_file)
+            image_url = new_image.image.url
+
+    context = {
+        'form': form,
+        'output_image_url': image_url,
+        'product_image_url': product_image_url
+    }
+    return render(request, 'core/try_out.html', context)

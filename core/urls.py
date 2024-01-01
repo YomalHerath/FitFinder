@@ -1,6 +1,6 @@
 
 from django.urls import include, path
-from core.views import add_to_wishlist, contact, get_style_recommendation, remove_thread, add_thread_comment, create_thread, thread_detail_view, threads_list_view, ajax_contact_form, customer_dashboard, index, make_address_default, order_detail, remove_wishlist, update_cart, payment_failed_view, payment_completed_view, checkout_view, about_us, delete_item_from_cart, category_list_view, cart_view, add_to_cart, filter_product, product_list_view, add_review, category_product_list_view, upload_and_process, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view, wishlist_view
+from core.views import add_to_wishlist, contact, get_style_recommendation, upload_and_process_with_id, remove_thread, add_thread_comment, create_thread, thread_detail_view, threads_list_view, ajax_contact_form, customer_dashboard, index, make_address_default, order_detail, remove_wishlist, update_cart, payment_failed_view, payment_completed_view, checkout_view, about_us, delete_item_from_cart, category_list_view, cart_view, add_to_cart, filter_product, product_list_view, add_review, category_product_list_view, upload_and_process, vendor_list_view, vendor_detail_view, product_detail_view, tag_list, search_view, wishlist_view
 
 app_name = "core"
 
@@ -99,6 +99,8 @@ urlpatterns = [
     path('style-recommendation/', get_style_recommendation, name='style-recommendation'),
 
 
-    path('upload/', upload_and_process, name='upload_and_process'),
+    path('try_out/', upload_and_process, name='try_out'),
+
+    path('try_out/<product_id>', upload_and_process_with_id, name='try_out_with_product'),
 
 ]
