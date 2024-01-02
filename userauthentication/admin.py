@@ -9,7 +9,7 @@ class ContactAdmin(admin.ModelAdmin):
     list_display = ['full_name', 'email', 'phone', 'subject', 'message']
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'bio', 'phone']
+    list_display = ['user','full_name', 'bio', 'phone']
 
 
 # Register your models here.
