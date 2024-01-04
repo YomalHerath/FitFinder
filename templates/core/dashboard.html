@@ -134,22 +134,30 @@
                     </form>
                 </div>
 
-                <div class="rte-setting border">
-                    <div class="card-header">
-                        <h3 class="h3">Shipping Address</h3>
+                <div class="rte-setting border ">
+                        <div class="card-header">
+                            <h3 class="h3">Shipping Address</h3>
+                        </div>
+                        {% for a in address %}
+                        <div class="rte-setting container">
+                            <br/>
+                            <h2 class="h2"><strong>Address {{ forloop.counter}}</strong></h2>
+                            <br/>
+                            <p><strong>Address: </strong>{{ a.address }}</p>
+                            <p><strong>Mobile No: </strong>{{ a.mobile }}</p>
+                            {% comment %} <p>{{a.id}}</p> {% endcomment %}
+
+                            {% if a.status %}
+                                <i data-address-id="{{ a.id }}" class="fa fa-check check{{ a.id }} check"></i>
+                                <button style="display:none" data-address-id="{{ a.id }}" class="btn btn--small make-default-address button{{ a.id }} action_btn">Make Default</button> 
+                            {% else %}
+                                <i data-address-id="{{ a.id }}" style="display:none" class="fa fa-check check{{ a.id }} check"></i>
+                                <button data-address-id="{{ a.id }}" class="btn btn--small make-default-address button{{ a.id }} action_btn">Make Default</button>
+                            {% endif %}                      
+                            <hr>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% for a in address %}
-                    <div class="rte-setting container">
-                        <br/>
-                        <h2 class="h2"><strong>Address {{ forloop.counter}}</strong></h2>
-                        <br/>
-                        <p><strong>Address: </strong>{{ a.address }}</p>
-                        <p><strong>Mobile No: </strong>{{ a.mobile }}</p>
-                        <!-- Address Actions -->
-                        <hr>
-                    </div>
-                    {% endfor %}
-                </div>
             </div>
         </div>
     </div>
