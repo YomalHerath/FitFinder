@@ -2,36 +2,37 @@
 {% load static %}
 {% block content %}
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!--Body Content-->
-    <div id="page-content">
-    	<!--Page Title-->
-    	<div class="page section-header text-center">
-			<div class="page-title">
-        		<div class="wrapper"><h1 class="page-width">Hello! {{ profile.full_name }}, Welcome to Your Account</h1></div>
-      		</div>
-		</div>
-        <!--End Page Title-->
+<div id="page-content">
+    <!--Page Title-->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper"><h1 class="page-width">Hello! {{ profile.full_name }}, Welcome to Your Account</h1></div>
+        </div>
+    </div>
+    <!--End Page Title-->
 
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-
-                    <div>
-                        <h2>Profile Details</h2>
-                        <form class="mb-4 rte-setting border" method="POST">
-                            <div class="card-header"><h3> Profile Details </h3></div>
-                            <br/>
-                            {% if profile.image %}
-                            <div class="form-group col-md-12">
-                                <img src="{{ profile.image.url }}" style="margin-left:20px; width:150px; height:150px; object-fit:cover; border-radius:50%; border: 1.5px solid #B2BEB5;">
-                            </div>
-                            {% else %}
-                            <div class="form-group col-md-12">
-                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
-                            </div>
-                            {% endif %}
-                            
-                            <!-- Full Name Field -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <!-- Profile Details -->
+                <div>
+                    <h2>Profile Details</h2>
+                    <form class="mb-4 rte-setting border" method="POST">
+                        <div class="card-header"><h3> Profile Details </h3></div>
+                        <br/>
+                        {% if profile.image %}
+                        <div class="form-group">
+                            <img src="{{ profile.image.url }}" class="img-fluid" style="border-radius:50%; margin-left:20px; width:150px; height:150px;">
+                        </div>
+                        {% else %}
+                        <div class="form-group">
+                            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" class="img-fluid" style="border-radius:50%; width:150px; height:150px;">
+                        </div>
+                        {% endif %}
+                        <!-- Full Name Field -->
                             <div class="form-group col-md-12">
                                 <label for="fullName" class="form-label">Full Name</label>
                                 <p class="form-control">{{ profile.full_name }}</p>
@@ -57,121 +58,103 @@
                                     <i class="fa fa-close" style="color:red"><span>Not Verified</i><span>
                                 {% endif %}
                             </div>
-                        
-                            
-
-                            <!-- Submit Button -->
-                            <div class="col-md-12">
-                                <a class="btn btn--small btn-black" href="{% url 'userauthentication:profile-update' %}">Update Details</a>
-                            </div>
-                            <br/>
-                            <p>
-                        </form>
-                    </div>
-                    
-                    <h2>Your Orders</h2>
-                    <div class="table-responsive-sm">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="center">Invoice NO</th>
-                                    <th class="center">Date</th>
-                                    <th class="center">Status</th>
-                                    <th class="center">Paid Status</th>
-                                    <th class="center">Total</th>
-                                    <th class="center">View</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                {% for order in orders_list %}
-                                <tr>
-                                    <td class="center">INVOICE-{{ order.id }}</td>
-                                    <td class="center">{{ order.order_date }}</td>
-                                    <td class="center">{{ order.product_status|title }}</td>
-                                    {% if order.paid_status == True %}
-                                        <td class="center" style="color: green"><i class="fa fa-check"></i></td>
-                                    {% else %}
-                                        <td class="center" style="color: red"><i class="fa fa-times"></i></td>
-                                    {% endif %}
-                                    <td class="center">${{ order.price }}</td>
-                                    <td class="center"><a href="{% url 'core:order-detail' order.id %}">View</a></td>
-                                </tr>
-                                {% endfor %}
-
-                            </tbody>
-                        </table>
-                    </div>
+                        <br/>
+                        <div class="col-12">
+                            <a class="btn btn--small btn-black" href="{% url 'userauthentication:profile-update' %}">Update Details</a>
+                        </div>
+                        <br/>
+                    </form>
                 </div>
 
-                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                <!-- Orders -->
+                <h2>Your Orders</h2>
+                <div class="table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="center">Invoice NO</th>
+                                <th class="center">Date</th>
+                                <th class="center">Status</th>
+                                <th class="center">Paid Status</th>
+                                <th class="center">Total</th>
+                                <th class="center">View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders_list %}
+                            <tr>
+                                <td class="center">INVOICE-{{ order.id }}</td>
+                                <td class="center">{{ order.order_date }}</td>
+                                <td class="center">{{ order.product_status|title }}</td>
+                                {% if order.paid_status == True %}
+                                    <td class="center" style="color: green"><i class="fa fa-check"></i></td>
+                                {% else %}
+                                    <td class="center" style="color: red"><i class="fa fa-times"></i></td>
+                                {% endif %}
+                                <td class="center">${{ order.price }}</td>
+                                <td class="center"><a href="{% url 'core:order-detail' order.id %}">View</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                    <h2>Your Monthly Orders Chart View</h2>
-                    <div>
-                        <canvas style="height: 200px" id="myChart"></canvas>
-                    </div>
+            <br/>
 
-                    <br>
-                    <br>
+            <div class="col-12 col-md-6">
+                <!-- Chart and Addresses -->
+                <h2>Your Monthly Orders Chart View</h2>
+                <div>
+                    <canvas id="myChart" style="max-width: 100%; height: auto;"></canvas>
+                </div>
 
-                	<h2 class="h2">Shipping Addresses</h2>
-                    
-                    <div>
-                        <form class="mb-4 rte-setting border rounded" method="POST"> 
-                            {% csrf_token %}
-                            <div class="card-header">
-                                <h3 class="h3">Add New Address</h3>
-                            </div>
-                            <br>
-                            <div class="row container">
-                                <div class="form-group col-md-6">
-                                    <input class="form-control" placeholder="Address" required type="text" name="address"/>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <input class="form-control" placeholder="Mobile No" required type="text" name="mobile"/>
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn btn--small btn-black" type="submit" name="submit" value="Sumbit">Save Address</button>
-                                </div>
-                            </div>
-                            <p></p>
-                            <br/>
-                        </form>
-                    </div>
+                <br/><br/>
 
-                    <div class="rte-setting border ">
+                <h2 class="h2">Shipping Addresses</h2>
+                <div>
+                    <form class="mb-4 rte-setting border rounded" method="POST"> 
+                        {% csrf_token %}
                         <div class="card-header">
-                            <h3 class="h3">Shipping Address</h3>
+                            <h3 class="h3">Add New Address</h3>
                         </div>
-                        {% for a in address %}
-                        <div class="rte-setting container">
-                            <br/>
-                            <h2 class="h2"><strong>Address {{ forloop.counter}}</strong></h2>
-                            <br/>
-                            <p><strong>Address: </strong>{{ a.address }}</p>
-                            <p><strong>Mobile No: </strong>{{ a.mobile }}</p>
-                            {% comment %} <p>{{a.id}}</p> {% endcomment %}
+                        <br>
+                        <div class="row container">
+                            <div class="form-group col-md-6">
+                                <input class="form-control" placeholder="Address" required type="text" name="address"/>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input class="form-control" placeholder="Mobile No" required type="text" name="mobile"/>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn--small btn-black" type="submit" name="submit" value="Submit">Save Address</button>
+                            </div>
+                        </div>
+                        <br/>
+                    </form>
+                </div>
 
-                            {% if a.status %}
-                                <i data-address-id="{{ a.id }}" class="fa fa-check check{{ a.id }} check"></i>
-                                <button style="display:none" data-address-id="{{ a.id }}" class="btn btn--small make-default-address button{{ a.id }} action_btn">Make Default</button> 
-                            {% else %}
-                                <i data-address-id="{{ a.id }}" style="display:none" class="fa fa-check check{{ a.id }} check"></i>
-                                <button data-address-id="{{ a.id }}" class="btn btn--small make-default-address button{{ a.id }} action_btn">Make Default</button>
-                            {% endif %}                      
-                            <hr>
-                        </div>
-                        {% endfor %}
+                <div class="rte-setting border">
+                    <div class="card-header">
+                        <h3 class="h3">Shipping Address</h3>
                     </div>
-
+                    {% for a in address %}
+                    <div class="rte-setting container">
+                        <br/>
+                        <h2 class="h2"><strong>Address {{ forloop.counter}}</strong></h2>
+                        <br/>
+                        <p><strong>Address: </strong>{{ a.address }}</p>
+                        <p><strong>Mobile No: </strong>{{ a.mobile }}</p>
+                        <!-- Address Actions -->
+                        <hr>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-
     </div>
+</div>
 <!--End Body Content-->
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
