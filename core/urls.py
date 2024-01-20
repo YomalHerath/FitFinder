@@ -98,9 +98,10 @@ urlpatterns = [
     # Recommondation
     path('style-recommendation/', get_style_recommendation, name='style-recommendation'),
 
-
+    # Try-out Feature
     path('try_out/', upload_and_process, name='try_out'),
 
+    # Try-out Feature with application products
     path('try_out/<product_id>', upload_and_process_with_id, name='try_out_with_product'),
 
 ]
