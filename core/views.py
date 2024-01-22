@@ -293,6 +293,7 @@ def checkout_view(request):
         order = CartOrder.objects.create(
             user = request.user,
             price = total_amount,
+            paid_status = True,
         )
 
         # Getting total amount for the cart
@@ -325,10 +326,10 @@ def checkout_view(request):
     paypal_payment_button = PayPalPaymentsForm(initial=paypal_dict)
 
 
-    # cart_total_amount = 0
-    # if 'cart_data_obj' in request.session:
-    #     for p_id, item in request.session['cart_data_obj'].items():
-    #         cart_total_amount += int(item['qty']) * float(item['price'])
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+         for p_id, item in request.session['cart_data_obj'].items():
+             cart_total_amount += int(item['qty']) * float(item['price'])
 
     try:
         active_address = Address.objects.get(user=request.user, status=True)
